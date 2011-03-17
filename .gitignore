@@ -1,0 +1,9 @@
+/build/
+/dist/
+/nbproject/private/
+/vrw_GadgetShop-ejb/build/
+/vrw_GadgetShop-ejb/dist/
+/vrw_GadgetShop-ejb/nbproject/private/
+/vrw_GadgetShop-war/build/
+/vrw_GadgetShop-war/dist/
+/vrw_GadgetShop-war/nbproject/private/
