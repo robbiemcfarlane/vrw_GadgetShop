@@ -1,36 +1,19 @@
-<%-- 
-    Document   : item
-    Created on : 18-Mar-2011, 00:03:50
-    Author     : Robbie
---%>
+<%@include file="WEB-INF/includes/header.jsp" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<c:if test="${not empty item}">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+    <h2 class="item_name">${item.name}</h2>
 
-    <body>
+    <p class="item_long_desc">
+        ${item.longDesc}
+    </p>
 
-        <c:if test="${not empty item}">
+    <p>
+        <span class="item_price">
+            <fmt:formatNumber value="${item.price}" type="currency" />
+        </span>
+    </p>
 
-            <h2>${item.name}</h2>
-            
-            <p>
-                ${item.longDesc}
-            </p>
+</c:if>
 
-            <p>
-                <fmt:formatNumber value="${item.price}" type="currency" />
-            </p>
-
-        </c:if>
-
-    </body>
-
-</html>
+<%@include file="WEB-INF/includes/footer.jsp" %>
