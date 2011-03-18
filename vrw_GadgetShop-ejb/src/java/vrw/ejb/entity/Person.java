@@ -37,7 +37,6 @@ public abstract class Person implements Serializable {
         return nickname;
     }
 
-
     /**
      *
      * @param nickname the nickname to set

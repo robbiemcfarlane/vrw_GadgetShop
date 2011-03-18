@@ -1,27 +1,29 @@
-<%--
-    Document   : shop_window
-    Created on : 17-Mar-2011, 01:35:39
+<%-- 
+    Document   : items
+    Created on : 17-Mar-2011, 22:43:58
     Author     : Robbie
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Shop Window Items</title>
+        <title>Gadgets</title>
     </head>
     <body>
 
-        <h2>Shop Window Items</h2>
+        <h2>Gadgets</h2>
 
-        <!-- List of shop window items -->
+        <p>List of gadgets</p>
+        
+        <!-- List of items -->
         <%@include file="WEB-INF/includes/item_list.jsp" %>
-
+      
     </body>
 </html>
