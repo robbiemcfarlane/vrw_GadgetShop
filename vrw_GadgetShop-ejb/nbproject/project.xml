@@ -6,6 +6,7 @@
             <name>vrw_GadgetShop-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">libs.hibernate-persistence.classpath</included-library>
+            <included-library dirs="200">libs.PostgreSQLDriver.classpath</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>
