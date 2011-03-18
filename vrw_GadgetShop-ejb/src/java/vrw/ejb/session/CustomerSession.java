@@ -12,7 +12,7 @@ import vrw.ejb.entity.Customer;
 
 /**
  *
- * @author Robbie
+ * @author Robbie, Viktor, Will
  */
 @Stateless
 @Remote(CustomerSessionRemote.class)
