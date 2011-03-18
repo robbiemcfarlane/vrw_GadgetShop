@@ -67,6 +67,8 @@ public class ExampleController extends HttpServlet
                 request.setAttribute("itemList", itemList);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop_window.jsp");
                 dispatcher.forward(request, response);
+
+                // Comment
             }
             catch (NamingException e)
             {
