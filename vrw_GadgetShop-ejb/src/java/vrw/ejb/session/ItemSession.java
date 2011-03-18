@@ -15,7 +15,7 @@ import vrw.ejb.entity.Item;
  * @author Robbie
  */
 @Stateless
-public class ItemSession implements ItemSessionRemote, ItemSessionLocal {
+public class ItemSession implements ItemSessionLocal {
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

@@ -15,7 +15,7 @@ import vrw.ejb.entity.Customer;
  * @author Robbie
  */
 @Stateless
-public class CustomerSession implements CustomerSessionRemote, CustomerSessionLocal {
+public class CustomerSession implements CustomerSessionLocal {
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
