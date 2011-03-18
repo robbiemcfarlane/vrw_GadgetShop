@@ -5,7 +5,7 @@
 
 package vrw.ejb.session;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.*;
 import java.util.Collection;
 import vrw.ejb.entity.Customer;
@@ -15,12 +15,14 @@ import vrw.ejb.entity.Customer;
  * @author Robbie
  */
 @Stateless
-public class CustomerSession implements CustomerSessionLocal {
+@Remote(CustomerSessionRemote.class)
+public class CustomerSession implements CustomerSessionRemote, java.io.Serializable  {
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
+    private static final long serialVersionUID = 1;
 
     public Collection<Customer> findAll() {
         return em.createQuery("SELECT c FROM Customer c").getResultList();

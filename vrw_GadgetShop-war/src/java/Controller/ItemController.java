@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import vrw.ejb.entity.Item;
-import vrw.ejb.session.ItemSessionLocal;
+import vrw.ejb.session.ItemSessionRemote;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ItemController extends HttpServlet {
 
             InitialContext context = new InitialContext();
 
-            ItemSessionLocal itemSession = (ItemSessionLocal) context.lookup("vrw_GadgetShop/ItemSession/local");
+            ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
 
             // Show all items
             if (itemId == null)

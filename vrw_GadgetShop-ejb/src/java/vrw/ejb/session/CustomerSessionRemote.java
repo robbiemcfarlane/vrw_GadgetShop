@@ -5,7 +5,6 @@
 
 package vrw.ejb.session;
 
-import javax.ejb.Local;
 import java.util.Collection;
 import vrw.ejb.entity.Customer;
 
@@ -13,8 +12,7 @@ import vrw.ejb.entity.Customer;
  *
  * @author Robbie
  */
-@Local
-public interface CustomerSessionLocal {
+public interface CustomerSessionRemote {
 
     public Collection<Customer> findAll();
     public Customer find(String nickname);

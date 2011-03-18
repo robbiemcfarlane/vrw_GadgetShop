@@ -14,9 +14,9 @@ import javax.servlet.RequestDispatcher;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import vrw.ejb.entity.Item;
-import vrw.ejb.session.ItemSessionLocal;
+import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.entity.Customer;
-import vrw.ejb.session.CustomerSessionLocal;
+import vrw.ejb.session.CustomerSessionRemote;
 import java.util.Collection;
 
 /**
@@ -44,8 +44,8 @@ public class ExampleController extends HttpServlet
             {
                 InitialContext context = new InitialContext();
 
-                ItemSessionLocal itemSession = (ItemSessionLocal) context.lookup("vrw_GadgetShop/ItemSession/local");
-                CustomerSessionLocal customerSession = (CustomerSessionLocal) context.lookup("vrw_GadgetShop/CustomerSession/local");
+                ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
+                CustomerSessionRemote customerSession = (CustomerSessionRemote) context.lookup("vrw_GadgetShop/CustomerSession/remote");
 
                 // Create 2 dummy items
                 Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), true);

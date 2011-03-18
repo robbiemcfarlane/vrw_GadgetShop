@@ -5,7 +5,7 @@
 
 package vrw.ejb.session;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.*;
 import java.util.Collection;
 import vrw.ejb.entity.Item;
@@ -15,12 +15,14 @@ import vrw.ejb.entity.Item;
  * @author Robbie
  */
 @Stateless
-public class ItemSession implements ItemSessionLocal {
+@Remote(ItemSessionRemote.class)
+public class ItemSession implements ItemSessionRemote, java.io.Serializable {
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @PersistenceContext
     private EntityManager em;
+    private static final long serialVersionUID = 1;
 
     public void add(Item item)
     {

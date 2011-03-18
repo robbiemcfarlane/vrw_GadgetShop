@@ -13,8 +13,7 @@ import vrw.ejb.entity.Item;
  *
  * @author Robbie
  */
-@Local
-public interface ItemSessionLocal {
+public interface ItemSessionRemote {
 
     public void add(Item item);
     public Item find(int id);
