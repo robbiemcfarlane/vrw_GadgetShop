@@ -15,6 +15,7 @@ import vrw.ejb.entity.Customer;
 
 import Utils.FormUtil;
 import Utils.Form;
+import Utils.AccountForm;
 
 /**
  *
@@ -25,9 +26,7 @@ import Utils.Form;
 public class Account extends HttpServlet {
 
 
-    private InitialContext context = null;
-    private CustomerSessionRemote customerSessionRemote = null;
-    private Customer customer = null;
+    
 
     
    
@@ -85,57 +84,21 @@ public class Account extends HttpServlet {
      */
     private void createAccount(HttpServletRequest request, HttpServletResponse response)
     {
-        // Account specific
-        String nickname = null;
-        String email = null;
-        String emailConfirmation = null;
-        String password = null;
-        String passwordConfirmation = null;
-
-        // Personal details, address
-        String firstname = null;
-        String lastname = null;
-        String address1 = null;
-        String address2 = null;
-        String city = null;
-        String county = null;
-        String postcode = null;
-        String country = null;
+        
+        AccountForm accountForm = new AccountForm();
+        Customer customer = null;
 
         try
         {
-
-            // Read account specific parameters from request
-            nickname =  FormUtil.getFieldValue(request, "nickname");
-            email = FormUtil.getFieldValue(request,"email");
-            emailConfirmation = FormUtil.getFieldValue(request,"email-confirmation");
-            password = FormUtil.getFieldValue(request, "password");
-            passwordConfirmation = FormUtil.getFieldValue(request,"password-confirmation");
-
-            // Read personal details and address from request
-            firstname = FormUtil.getFieldValue(request, "first-name");
-            lastname = FormUtil.getFieldValue(request, "last-name");
-            address1 = FormUtil.getFieldValue(request, "address1");
-            address2 = FormUtil.getFieldValue(request, "address2");
-            city = FormUtil.getFieldValue(request, "city");
-            county = FormUtil.getFieldValue(request, "county");
-            postcode = FormUtil.getFieldValue(request, "postcode");
-            country = FormUtil.getFieldValue(request, "country");
-
-            // Create a new customer
-            customer = new Customer(nickname, firstname, lastname, password,
-                    address1, address2, city, county, postcode, country, email);
-
-            context = new InitialContext();
-            customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
-
-            customerSessionRemote.register(customer);
+            customer = accountForm.registerCustomer(request);
+            
+            request.setAttribute("create-account", accountForm);
+            request.setAttribute("customer", customer);            
 
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            
         }
     }
 
@@ -163,23 +126,23 @@ public class Account extends HttpServlet {
 
         try
         {
-            nickname = request.getParameter("nickname").trim();
-            password = request.getParameter("password").trim();
-
-             context = new InitialContext();
-             customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
-
-             if (customerSessionRemote.authenticate(nickname, password))
-             {
-                // Store nickname in the session
-                request.getSession().setAttribute("nickname", nickname);
-                response.sendRedirect("/items/");
-             }
-             else
-             {
-                 // ToDo: 
-             }
+//            nickname = request.getParameter("nickname").trim();
+//            password = request.getParameter("password").trim();
+//
+//             context = new InitialContext();
+//             customerSessionRemote = (CustomerSessionRemote) context.lookup(
+//                    "vrw_GadgetShop/CustomerSession/remote");
+//
+//             if (customerSessionRemote.authenticate(nickname, password))
+//             {
+//                // Store nickname in the session
+//                request.getSession().setAttribute("nickname", nickname);
+//                response.sendRedirect("/items/");
+//             }
+//             else
+//             {
+//                 // ToDo:
+//             }
         }
         catch(Exception e)
         {
