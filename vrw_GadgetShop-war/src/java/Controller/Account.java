@@ -36,16 +36,23 @@ public class Account extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
+
+
             if(request.getParameter("create-account") != null)
             {
+                out.println(request.getParameter("create-account"));
                 createAccount(request, response);
             }
             else if(request.getParameter("manage-account") !=null)
             {
 
             }
-
-        } finally {
+        }
+        catch(Exception ex)
+        {
+            out.println(ex.getMessage());
+        }
+        finally {
             //ToDo: Remove this
             out.println("Finally hit.");
             out.close();
@@ -85,7 +92,10 @@ public class Account extends HttpServlet {
 
         try
         {
+
             //ToDo: checks for nulls and validations to be added
+            
+            
 
             // Read account specific parameters from request
             nickname = request.getParameter("nickname").trim();
@@ -103,16 +113,6 @@ public class Account extends HttpServlet {
             county = request.getParameter("county").trim();
             postcode = request.getParameter("postcode").trim();
             country = request.getParameter("country").trim();
-
-//            if(!email.equals(emailConfirmation))
-//            {
-//                throw new ValidationException("Email must match.");
-//            }
-//
-//            if(!password.equals(passwordConfirmation))
-//            {
-//                throw new ValidationException("Passwords must match.");
-//            }
 
             // Create a new customer
             customer = new Customer(nickname, firstname, lastname, password,
