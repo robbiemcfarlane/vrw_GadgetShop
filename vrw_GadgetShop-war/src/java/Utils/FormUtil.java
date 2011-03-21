@@ -14,9 +14,9 @@ import java.util.Map;
  *
  * @author viktor
  */
-public final class FormValidation {
+public final class FormUtil {
 
-    private FormValidation(){}
+    private FormUtil(){}
 
     /**
      * Returns field value from a request.
@@ -58,6 +58,15 @@ public final class FormValidation {
     public static boolean isEmail(String email)
     {
         return email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)");
+    }
+
+    /**
+     * Checks whether a given string is a number
+     * @param string to check
+     * @return returns true if the given string is a number, false otherwise
+     */
+    public static boolean isNumber(String string) {
+        return string.matches("^\\d+$");
     }
 
 
