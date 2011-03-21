@@ -21,9 +21,7 @@ import vrw.ejb.entity.Customer;
 public class Account extends HttpServlet {
 
     
-    private InitialContext context = null;
-    CustomerSessionRemote customerSessionRemote = null;
-    Customer customer = null;
+    
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,13 +38,16 @@ public class Account extends HttpServlet {
 
             if(request.getParameter("create-account") != null)
             {
-                
-            }else if(request.getParameter("manage-account") !=null)
+                createAccount(request, response);
+            }
+            else if(request.getParameter("manage-account") !=null)
             {
-            
+
             }
 
-        } finally { 
+        } finally {
+            //ToDo: Remove this
+            out.println("Finally hit.");
             out.close();
         }
     }
@@ -61,8 +62,12 @@ public class Account extends HttpServlet {
      */
     private void createAccount(HttpServletRequest request, HttpServletResponse response)
     {
+        InitialContext context = null;
+        CustomerSessionRemote customerSessionRemote = null;
+        Customer customer = null;
+
         // Account specific
-        String username = null;
+        String nickname = null;
         String email = null;
         String emailConfirmation = null;
         String password = null;
@@ -80,28 +85,42 @@ public class Account extends HttpServlet {
 
         try
         {
+            //ToDo: checks for nulls and validations to be added
+
             // Read account specific parameters from request
-            username = request.getParameter("username");
-            email = request.getParameter("email");
-            emailConfirmation = request.getParameter("email-confirmation");
-            password = request.getParameter("password");
-            passwordConfirmation = request.getParameter("password-confirmation");
+            nickname = request.getParameter("nickname").trim();
+            email = request.getParameter("email").trim();
+            emailConfirmation = request.getParameter("email-confirmation").trim();
+            password = request.getParameter("password").trim();
+            passwordConfirmation = request.getParameter("password-confirmation").trim();
 
             // Read personal details and address from request
-            firstname = request.getParameter("first-name");
-            lastname = request.getParameter("last-name");
-            address1 = request.getParameter("address-1");
-            address2 = request.getParameter("address-2");
-            city = request.getParameter("city");
-            county = request.getParameter("county");
-            postcode = request.getParameter("postcode");
-            country = request.getParameter("country");
+            firstname = request.getParameter("first-name").trim();
+            lastname = request.getParameter("last-name").trim();
+            address1 = request.getParameter("address-1").trim();
+            address2 = request.getParameter("address-2").trim();
+            city = request.getParameter("city").trim();
+            county = request.getParameter("county").trim();
+            postcode = request.getParameter("postcode").trim();
+            country = request.getParameter("country").trim();
+
+//            if(!email.equals(emailConfirmation))
+//            {
+//                throw new ValidationException("Email must match.");
+//            }
+//
+//            if(!password.equals(passwordConfirmation))
+//            {
+//                throw new ValidationException("Passwords must match.");
+//            }
+
+            // Create a new customer
+            customer = new Customer(nickname, firstname, lastname, password,
+                    address1, address2, city, county, postcode, country, email);
 
             context = new InitialContext();
             customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
-
-            
+                    "vrw_GadgetShop/CustomerSession/remote");           
 
         }
         catch(Exception e)

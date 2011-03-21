@@ -39,7 +39,7 @@ public class Customer extends Person implements Serializable {
     public Customer(){}
 
     /**
-     * Default constructor
+     * Default constructor. New customers are marked as active by default.
      * @param address1 address1 to set
      * @param address2 address2 to set
      * @param city city to set
@@ -50,7 +50,7 @@ public class Customer extends Person implements Serializable {
      */
     public Customer(String nickname, String firstName, String lastName, String password, String address1, String address2, String city,
                         String county, String postcode, String country,
-                        String email, boolean isActive)
+                        String email)
     {
         super.nickname = nickname;
         super.firstName = firstName;
@@ -63,7 +63,7 @@ public class Customer extends Person implements Serializable {
         this.postcode = postcode;
         this.country = country;
         this.email = email;
-        this.active = isActive;
+        this.active = true;
     }
 
     @Override

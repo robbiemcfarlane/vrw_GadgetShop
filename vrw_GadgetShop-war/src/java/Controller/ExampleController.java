@@ -56,7 +56,7 @@ public class ExampleController extends HttpServlet
                 itemSession.add(item2);
 
                 // Create a new customer
-                Customer cust1 = new Customer("johnsmith123", "John", "Smith", "secretpass123", "Random Business Estate", "Unit 1", "Norwich", "Norfolk", "NR2 1AB", "England", "me@me.com", true);
+                Customer cust1 = new Customer("johnsmith123", "John", "Smith", "secretpass123", "Random Business Estate", "Unit 1", "Norwich", "Norfolk", "NR2 1AB", "England", "me@me.com");
 
                 // Add the customer to the database (persist)
                 customerSession.register(cust1);

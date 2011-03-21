@@ -9,7 +9,7 @@
         <h2>Personal Details</h2>
 
         <h3>Username</h3>
-        <input type="text" name="username" length="16"/>
+        <input type="text" name="nickname" length="16"/>
 
         <h3>Email Address</h3>
         <input type="text" name="email" maxlength="100"/>
