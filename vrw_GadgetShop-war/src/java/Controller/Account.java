@@ -135,7 +135,7 @@ public class Account extends HttpServlet {
         }
         catch(Exception e)
         {
-            
+            e.printStackTrace();
         }
     }
 
