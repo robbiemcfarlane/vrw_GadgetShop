@@ -8,6 +8,10 @@
         <servlet-name>ItemController</servlet-name>
         <servlet-class>Controller.ItemController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Account</servlet-name>
+        <servlet-class>Controller.Account</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExampleController</servlet-name>
         <url-pattern>/ExampleController</url-pattern>
@@ -15,6 +19,14 @@
     <servlet-mapping>
         <servlet-name>ItemController</servlet-name>
         <url-pattern>/ItemController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Account</servlet-name>
+        <url-pattern>/account/create</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Account</servlet-name>
+        <url-pattern>/account/manage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

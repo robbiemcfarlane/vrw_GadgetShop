@@ -1,0 +1,30 @@
+/*
+    Master reset for all browsers
+*/
+h1,h2,h3,input,a,ul,li,p
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    font-family: "Verdana,Arial,Sans-Serif";
+    font-size: 12px;
+}
+
+h1{font-size: 20px;}
+h2{font-size: 16px;}
+h3{font-size: 14px;}
+
+#container
+{
+    width: 980px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#content {
+
+}
+

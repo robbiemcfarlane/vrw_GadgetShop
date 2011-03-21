@@ -5,5 +5,5 @@
     <p>
         Welcome to Global Gadgets.
     </p>
-                
-<%@include file="WEB-INF/includes/footer.jsp" %>
+
+<%@include file="../WEB-INF/includes/footer.jsp" %>

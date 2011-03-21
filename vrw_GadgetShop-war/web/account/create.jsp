@@ -1,10 +1,10 @@
-<jsp:include page="WEB-INF/includes/header.jsp">
+<jsp:include page="/WEB-INF/includes/header.jsp">
     <jsp:param name="pageTitle" value="Create Account" />
 </jsp:include>
 
     <h1>Create Account</h1>
 
-    <form action="/account/create" method="POST">
+    <form action="create" method="POST">
 
         <h2>Personal Details</h2>
 
@@ -53,4 +53,4 @@
 
     </form>
 
-<%@include file="WEB-INF/includes/footer.jsp" %>
+<%@include file="../WEB-INF/includes/footer.jsp" %>
