@@ -10,12 +10,20 @@ h1,h2,h3,input,a,ul,li,p
 body
 {
     font-family: "Verdana,Arial,Sans-Serif";
-    font-size: 12px;
+    font-size: 62.5%;
+    text-align: center;
 }
 
-h1{font-size: 20px;}
-h2{font-size: 16px;}
-h3{font-size: 14px;}
+
+h1{font-size: 2em;}
+h2{font-size: 1.6em;}
+h3{font-size: 1.4em;}
+
+p
+{
+    margin: 10px 0px;
+}
+
 
 #container
 {
@@ -24,7 +32,30 @@ h3{font-size: 14px;}
     text-align: left;
 }
 
+#header
+{
+    
+}
+
 #content {
 
 }
 
+
+#footer {
+    clear: both;
+}
+
+
+form .error
+{
+    color: red;
+    font-weight: bold;
+}
+
+#item_list li {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 200px;
+}
