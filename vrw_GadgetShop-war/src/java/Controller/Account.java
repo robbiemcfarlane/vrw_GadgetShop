@@ -13,6 +13,9 @@ import vrw.ejb.session.CustomerSessionRemote;
 
 import vrw.ejb.entity.Customer;
 
+import Utils.FormValidation;
+import Utils.Form;
+
 /**
  *
  * @author viktor
@@ -102,25 +105,22 @@ public class Account extends HttpServlet {
         try
         {
 
-            //ToDo: checks for nulls and validations to be added          
-            
-
             // Read account specific parameters from request
-            nickname = request.getParameter("nickname").trim();
-            email = request.getParameter("email").trim();
-            emailConfirmation = request.getParameter("email-confirmation").trim();
-            password = request.getParameter("password").trim();
-            passwordConfirmation = request.getParameter("password-confirmation").trim();
+            nickname =  FormValidation.getFieldValue(request, "nickname");
+            email = FormValidation.getFieldValue(request,"email");
+            emailConfirmation = FormValidation.getFieldValue(request,"email-confirmation");
+            password = FormValidation.getFieldValue(request, "password");
+            passwordConfirmation = FormValidation.getFieldValue(request,"password-confirmation");
 
             // Read personal details and address from request
-            firstname = request.getParameter("first-name").trim();
-            lastname = request.getParameter("last-name").trim();
-            address1 = request.getParameter("address-1").trim();
-            address2 = request.getParameter("address-2").trim();
-            city = request.getParameter("city").trim();
-            county = request.getParameter("county").trim();
-            postcode = request.getParameter("postcode").trim();
-            country = request.getParameter("country").trim();
+            firstname = FormValidation.getFieldValue(request, "first-name");
+            lastname = FormValidation.getFieldValue(request, "last-name");
+            address1 = FormValidation.getFieldValue(request, "address1");
+            address2 = FormValidation.getFieldValue(request, "address2");
+            city = FormValidation.getFieldValue(request, "city");
+            county = FormValidation.getFieldValue(request, "county");
+            postcode = FormValidation.getFieldValue(request, "postcode");
+            country = FormValidation.getFieldValue(request, "country");           
 
             // Create a new customer
             customer = new Customer(nickname, firstname, lastname, password,

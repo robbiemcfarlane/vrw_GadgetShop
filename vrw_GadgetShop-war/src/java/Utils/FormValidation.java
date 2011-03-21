@@ -25,7 +25,7 @@ public final class FormValidation {
      * @return
      */
     public static String getFieldValue(HttpServletRequest request, String fieldName) {
-        String value = request.getParameter(fieldName);
+        String value = request.getParameter(fieldName).trim();
         return isEmpty(value) ? null : value;
     }
 
@@ -42,9 +42,9 @@ public final class FormValidation {
         } else if (value instanceof Object[]) {
             return ((Object[]) value).length == 0;
         } else if (value instanceof Collection<?>) {
-            return ((Collection<?>) value).size() == 0;
+            return ((Collection<?>) value).isEmpty();
         } else if (value instanceof Map<?, ?>) {
-            return ((Map<?, ?>) value).size() == 0;
+            return ((Map<?, ?>) value).isEmpty();
         } else {
             return value.toString() == null || value.toString().trim().length() == 0;
         }
