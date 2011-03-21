@@ -120,12 +120,14 @@ public class Account extends HttpServlet {
 
             context = new InitialContext();
             customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");           
+                    "vrw_GadgetShop/CustomerSession/remote");
+
+            customerSessionRemote.register(customer);
 
         }
         catch(Exception e)
         {
-            
+            e.printStackTrace();
         }
     }
 
