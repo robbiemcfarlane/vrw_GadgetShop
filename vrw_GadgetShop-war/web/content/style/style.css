@@ -46,6 +46,13 @@ p
     clear: both;
 }
 
+
+form .error
+{
+    color: red;
+    font-weight: bold;
+}
+
 #item_list li {
     display: block;
     float: left;

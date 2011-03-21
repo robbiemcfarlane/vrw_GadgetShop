@@ -23,9 +23,7 @@
     <servlet-mapping>
         <servlet-name>Account</servlet-name>
         <url-pattern>/account/create</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Account</servlet-name>
+        <url-pattern>/account/login</url-pattern>
         <url-pattern>/account/manage</url-pattern>
     </servlet-mapping>
     <session-config>

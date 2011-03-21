@@ -27,6 +27,9 @@
 
             <ul id="nav">
                 <li><a href="ItemController">Gadgets</a></li>
+                <li><a href="/account/create">Create Account</a></li>
+                <li><a href="/account/manage">Manage Account</a></li>
+                <li><a href="/account/login">Login</a></li>
             </ul>
 
             <div id="content">

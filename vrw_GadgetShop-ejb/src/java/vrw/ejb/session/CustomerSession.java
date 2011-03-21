@@ -44,4 +44,15 @@ public class CustomerSession implements CustomerSessionRemote, java.io.Serializa
         c.setActive(false);
         em.persist(c);
     }
+
+    /**
+     * Authenticates customer
+     *
+     * @param nickname customer's nickname
+     * @param password customer's password
+     * @return true if nickname and password match, false otherwise.
+     */
+    public boolean authenticate(String nickname, String password){
+        return find(nickname).getPassword().equals(password);
+    }
 }
