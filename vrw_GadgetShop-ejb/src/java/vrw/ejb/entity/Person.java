@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 /**
  *
  * @author viktor
+ *
+ * ToDo: Should email be here? 21032011-VP
  */
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)

@@ -1,5 +1,5 @@
 
-        </div><!-- End Content -->
+    </div><!-- End Content -->
 
         <div id="footer">
             &copy; 2011. Global Gadgets. All rights reserved.
