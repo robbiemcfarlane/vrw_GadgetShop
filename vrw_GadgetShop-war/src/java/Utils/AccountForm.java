@@ -21,9 +21,7 @@ import vrw.ejb.session.CustomerSessionRemote;
  */
 public class AccountForm extends Form {
 
-    private InitialContext context = null;
-    private CustomerSessionRemote customerSessionRemote = null;
-    private Customer customer = null;
+    
 
     // Fields on the account registration page
     private static final String FIELD_NICKNAME="nickname";
@@ -44,7 +42,7 @@ public class AccountForm extends Form {
      * Register a customer
      * @param customer to registerCustomer
      */
-    public Customer registerCustomer(HttpServletRequest request) throws ServletException
+    public Customer registerCustomer(HttpServletRequest request) throws Exception
     {
         // Account specific
         String nickname = null;
@@ -62,6 +60,10 @@ public class AccountForm extends Form {
         String county = null;
         String postcode = null;
         String country = null;
+
+        InitialContext context = null;
+        CustomerSessionRemote customerSessionRemote = null;
+        Customer customer = null;
 
         try
         {
@@ -93,11 +95,14 @@ public class AccountForm extends Form {
             // Register customer if there are no validation errors
 //            if(isSuccess())
 //            {
-                context = new InitialContext();
-                customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                        "vrw_GadgetShop/CustomerSession/remote");
 
-                customerSessionRemote.register(customer);
+
+
+            context = new InitialContext();
+            customerSessionRemote = (CustomerSessionRemote) context.lookup(
+                    "vrw_GadgetShop/CustomerSession/remote");
+
+            customerSessionRemote.register(customer);
 //            }
 
             return customer;
@@ -105,7 +110,7 @@ public class AccountForm extends Form {
         }
         catch(Exception e)
         {
-            throw new ServletException(e.getMessage());
+            throw e;
         }
 
     }
