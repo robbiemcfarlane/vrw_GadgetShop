@@ -2,31 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Utils;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import vrw.ejb.entity.Customer;
-
+import java.util.Map;
 
 import vrw.ejb.entity.Customer;
 import vrw.ejb.session.CustomerSessionRemote;
-
 
 /**
  *
  * @author viktor
  */
-public class AccountForm extends Form {
-
-    
+public class AccountForm extends Form
+{
 
     // Fields on the account registration page
-    private static final String FIELD_NICKNAME="nickname";
-    private static final String FIELD_FIRSTNAME = "first-name";
-    private static final String FIELD_LASTNAME = "last-name";
+    private static final String FIELD_NICKNAME = "nickname";
+    private static final String FIELD_FIRST_NAME = "first-name";
+    private static final String FIELD_LAST_NAME = "last-name";
     private static final String FIELD_EMAIL = "email";
     private static final String FIELD_EMAIL_CONFIRMATION = "email-confirmation";
     private static final String FIELD_PASSWORD = "password";
@@ -42,119 +38,89 @@ public class AccountForm extends Form {
      * Register a customer
      * @param customer to registerCustomer
      */
-    public Customer registerCustomer(HttpServletRequest request) throws Exception
+    public Customer registerCustomer(Map<String, String> fields) throws GadgetShopValidationException
     {
-        // Account specific
-        String nickname = null;
-        String email = null;
-        String emailConfirmation = null;
-        String password = null;
-        String passwordConfirmation = null;
+        // If any parameters are null, user has edited form, so a NullPointerException
+        // will be generated and caught by the application error page
+        String nickname = fields.get(FIELD_NICKNAME).trim();
+        this.validateNickname(nickname);
 
-        // Personal details, address
-        String firstname = null;
-        String lastname = null;
-        String address1 = null;
-        String address2 = null;
-        String city = null;
-        String county = null;
-        String postcode = null;
-        String country = null;
+        String email = fields.get(FIELD_EMAIL).trim();
+        String emailConfirmation = fields.get(FIELD_EMAIL_CONFIRMATION).trim();
+        this.validateEmail(email, emailConfirmation);
 
-        InitialContext context = null;
-        CustomerSessionRemote customerSessionRemote = null;
-        Customer customer = null;
+        String password = fields.get(FIELD_PASSWORD).trim();
+        String passwordConfirmation = fields.get(FIELD_PASSWORD_CONFIRMATION).trim();
+        // TODO: Validate password
 
-        try
+        String firstName = fields.get(FIELD_FIRST_NAME).trim();
+        // TODO: Validate firstName
+
+        String lastName = fields.get(FIELD_LAST_NAME).trim();
+        // TODO: Validate lastName
+
+        String address1 = fields.get(FIELD_ADDRESS1).trim();
+        String address2 = fields.get(FIELD_ADDRESS2).trim();
+        String city = fields.get(FIELD_CITY).trim();
+        String county = fields.get(FIELD_COUNTY).trim();
+        String postcode = fields.get(FIELD_POSTCODE).trim();
+        String country = fields.get(FIELD_COUNTRY).trim();
+        this.validateAddress(address1, address2, city, county, postcode, country);
+
+        if (!isSuccess())
         {
-            // Read account specific parameters from request
-            nickname =  FormUtil.getFieldValue(request, "nickname");
-            email = FormUtil.getFieldValue(request,"email");
-            emailConfirmation = FormUtil.getFieldValue(request,"email-confirmation");
-            password = FormUtil.getFieldValue(request, "password");
-            passwordConfirmation = FormUtil.getFieldValue(request,"password-confirmation");
-
-            // Read personal details and address from request
-            firstname = FormUtil.getFieldValue(request, "first-name");
-            lastname = FormUtil.getFieldValue(request, "last-name");
-            address1 = FormUtil.getFieldValue(request, "address1");
-            address2 = FormUtil.getFieldValue(request, "address2");
-            city = FormUtil.getFieldValue(request, "city");
-            county = FormUtil.getFieldValue(request, "county");
-            postcode = FormUtil.getFieldValue(request, "postcode");
-            country = FormUtil.getFieldValue(request, "country");
-
-            // Create a new customer
-            customer = new Customer(nickname, firstname, lastname, password,
+            throw new GadgetShopValidationException("Account fields invalid");
+        }
+        else
+        {
+            return new Customer(nickname, firstName, lastName, password,
                     address1, address2, city, county, postcode, country, email);
-
-            // Validate customer
-            //validateUsername(nickname);
-            //validateEmail(email, emailConfirmation);
-
-            // Register customer if there are no validation errors
-//            if(isSuccess())
-//            {
-
-
-
-            context = new InitialContext();
-            customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
-
-            customerSessionRemote.register(customer);
-//            }
-
-            return customer;
-
         }
-        catch(Exception e)
-        {
-            throw e;
-        }
-
     }
-
 
     /**
      * Validates user name
      * @param username to validate
-     * @throws GadgetShopValidationException if the username does not meat validation criteria
      */
-    public void validateUsername(String username) throws GadgetShopValidationException
+    public void validateNickname(String nickname)
     {
-        if(username == null)
+        if (nickname.isEmpty())
         {
-            setError(FIELD_NICKNAME, "Please enter a username");
+            setMessage(FIELD_NICKNAME, "Please enter a nickname");
         }
-        else if(username.length() < 5)
+        else if (nickname.length() < 5 || nickname.length() > 16)
         {
-            setError(FIELD_NICKNAME, "Username must be between 5 and 16 characters long");
+            setMessage(FIELD_NICKNAME, "Nickname must be between 5 and 16 characters long");
         }
+        // TODO: Check that contains() works in this case
+        else if (nickname.contains(" "))
+        {
+            setMessage(FIELD_NICKNAME, "Nickname must not contain any spaces");
+        }
+
+        // TODO: In full release, add further validation for non-allowed characters,
+        // e.g. anything other than letters, numbers, and underscore
     }
 
     /**
      * Validates email address
      * @param email email address
      * @param emailConfirmation email address confirmation
-     * @throws GadgetShopValidationException validation exception is validation criteria has not been met
      */
-    public void validateEmail(String email, String emailConfirmation) throws GadgetShopValidationException
+    public void validateEmail(String email, String emailConfirmation)
     {
-        //ToDo: replace throw exception with setError()
         if (!FormUtil.isEmail(email))
         {
-            throw new GadgetShopValidationException("Please enter a valid email address");
+            setMessage(FIELD_EMAIL, "Please enter a valid email address");
         }
 
-        if(!FormUtil.isEmail(emailConfirmation))
+        if (!FormUtil.isEmail(emailConfirmation))
         {
-            throw new GadgetShopValidationException("Please enter a valid email confirmation");
+            setMessage(FIELD_EMAIL_CONFIRMATION, "Please enter a valid email address confirmation");
         }
-
-        if(!email.equals(emailConfirmation))
+        else if (!email.equals(emailConfirmation))
         {
-            throw new GadgetShopValidationException("Emails must match");
+            setMessage(FIELD_EMAIL_CONFIRMATION, "Emails must match");
         }
     }
 
@@ -168,8 +134,7 @@ public class AccountForm extends Form {
      * @param country
      */
     public void validateAddress(String address1, String address2, String city,
-                                String county, String postcode, String country)
+            String county, String postcode, String country)
     {
-        
     }
 }

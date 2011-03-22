@@ -9,6 +9,7 @@ import javax.ejb.*;
 import javax.persistence.*;
 import java.util.Collection;
 import vrw.ejb.entity.Customer;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,6 +44,16 @@ public class CustomerSession implements CustomerSessionRemote, java.io.Serializa
     public void remove(Customer c) {
         c.setActive(false);
         em.persist(c);
+    }
+
+    public boolean login(HttpSession session, String nickname, String password)
+    {
+        boolean authenticated = authenticate(nickname,password);
+        if(authenticated)
+        {
+            session.setAttribute("customer",find(nickname));
+        }
+        return authenticated;   
     }
 
     /**

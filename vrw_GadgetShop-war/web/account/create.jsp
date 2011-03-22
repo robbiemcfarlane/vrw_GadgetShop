@@ -1,6 +1,8 @@
+<%@page import="Utils.FormFields" %>
 <jsp:include page="/WEB-INF/includes/header.jsp">
     <jsp:param name="pageTitle" value="Create Account" />
 </jsp:include>
+
 
     <h1>Create Account</h1>
 
@@ -9,7 +11,7 @@
         <h2>Personal Details</h2>
 
         <h3>Username</h3>
-        <input type="text" name="nickname" maxlength="16"/>
+        <input type="text" name="nickname" maxlength="16" value="${param.nickname}"/>
         <span class="error">${account.messages.nickname}</span>
 
         <h3>Email Address</h3>
@@ -50,7 +52,7 @@
         <h3>Country</h3>
         <input type="text" name="country" maxlength="80"/>
 
-        <input type="submit" name="create-account" title="Create Account" value="Create Account" />
+        <input type="submit" title="Create Account" value="Create Account" />
 
     </form>
 

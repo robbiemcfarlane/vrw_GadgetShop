@@ -7,6 +7,7 @@ package vrw.ejb.session;
 
 import java.util.Collection;
 import vrw.ejb.entity.Customer;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,6 +20,7 @@ public interface CustomerSessionRemote {
     public void register(Customer c);
     public void update(Customer c);
     public void remove(Customer c);
+    public boolean login(HttpSession session, String nickname, String password);
     public boolean authenticate(String nickname, String password);
 
 }

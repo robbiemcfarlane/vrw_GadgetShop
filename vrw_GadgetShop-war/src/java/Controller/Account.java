@@ -23,13 +23,9 @@ import Utils.AccountForm;
  *
  * Controller for creating and managing accounts
  */
-public class Account extends HttpServlet {
+public class Account extends HttpServlet
+{
 
-
-    
-
-    
-   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -38,41 +34,42 @@ public class Account extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
+        try
+        {
 
             String path = request.getServletPath().split("/")[1];
 
             // Create a new account
-            if(path.equals("create"))
+            if (path.equals("register"))
             {
-                createAccount(request, response);
+                register(request, response);
             }
             // Manage existing account
-            else if(path.equals("manage"))
+            else if (path.equals("manage"))
             {
-
             }
             // Login
-            else if(path.equals("login"))
+            else if (path.equals("login"))
             {
                 authenticate(request, response);
             }
 
-            
+
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             out.println(ex.getMessage());
         }
-        finally {
-           
+        finally
+        {
+
             out.close();
         }
     }
-
 
     /**
      * Create a new customer account
@@ -81,26 +78,35 @@ public class Account extends HttpServlet {
      * @param request
      * @param response
      */
-    private void createAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
+    private void register(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        
-        AccountForm accountForm = new AccountForm();
-        Customer customer = null;
-
-        try
+        // Postback
+        if (request.getMethod().equals("post"))
         {
-            customer = accountForm.registerCustomer(request);
-            
-            request.setAttribute("account", accountForm);
-            request.setAttribute("customer", customer);
+            AccountForm accountForm = new AccountForm();
+            try
+            {       
+                Customer customer = accountForm.registerCustomer(request.getParameterMap());
 
-            request.getRequestDispatcher("/account/create.jsp").forward(request, response);
-            
+                // Success...
+                InitialContext context = new InitialContext();
+                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup("vrw_GadgetShop/CustomerSession/remote");
+
+                customerSessionRemote.register(customer);
+
+                customerSessionRemote.login(request.getSession(), customer.getNickname(), customer.getPassword());
+
+                response.sendRedirect("/account/my-account");
+            }
+            catch (Utils.GadgetShopValidationException gsve)
+            {
+                // Errors...
+                request.setAttribute("errMessages", accountForm.getMessages());
+            }
         }
-        catch(Exception e)
-        {
-            throw e;
-        }
+
+        request.getRequestDispatcher("/account/create.jsp").forward(request, response);
+
     }
 
     /**
@@ -111,7 +117,6 @@ public class Account extends HttpServlet {
      */
     private void manageAccount(HttpServletRequest request, HttpServletResponse response)
     {
-        
     }
 
     /**
@@ -145,9 +150,8 @@ public class Account extends HttpServlet {
 //                 // ToDo:
 //             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-
         }
     }
 
@@ -161,9 +165,10 @@ public class Account extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -174,7 +179,8 @@ public class Account extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -183,8 +189,8 @@ public class Account extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
-
 }

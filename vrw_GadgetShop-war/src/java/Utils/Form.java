@@ -8,10 +8,9 @@ import java.util.Map;
  *
  * @author viktor
  */
-public class Form {
-
-    private Map<String, String> messages = new LinkedHashMap<String, String>();
-    private boolean hasError;
+public class Form
+{
+    protected Map<String, String> messages = new LinkedHashMap<String, String>();
 
     /**
      * Returns all messages for the form.
@@ -28,7 +27,7 @@ public class Form {
      */
     public boolean isSuccess()
     {
-        return !hasError;
+        return messages.isEmpty();
     }
 
     /**
@@ -40,16 +39,4 @@ public class Form {
     {
         messages.put(key, value);
     }
-
-    /**
-     * Sets error for a specified field.
-     * @param key field to set.
-     * @param value value to set.
-     */
-    public void setError(String key, String value)
-    {
-        hasError = true;
-        setMessage(key, value);
-    }
-
 }
