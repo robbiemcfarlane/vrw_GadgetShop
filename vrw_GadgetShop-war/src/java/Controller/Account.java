@@ -43,20 +43,20 @@ public class Account extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
+            String path = request.getServletPath().split("/")[1];
 
             // Create a new account
-            if(request.getParameter("create-account") != null)
+            if(path.equals("create"))
             {
-                out.println(request.getParameter("create-account"));
                 createAccount(request, response);
             }
             // Manage existing account
-            else if(request.getParameter("manage-account") !=null)
+            else if(path.equals("manage"))
             {
 
             }
             // Login
-            else if(request.getParameter("login") != null)
+            else if(path.equals("login"))
             {
                 authenticate(request, response);
             }
