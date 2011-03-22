@@ -87,25 +87,25 @@ public class AccountForm extends Form {
                     address1, address2, city, county, postcode, country, email);
 
             // Validate customer
-            validateUsername(nickname);
-            validateEmail(email, emailConfirmation);
+            //validateUsername(nickname);
+            //validateEmail(email, emailConfirmation);
 
             // Register customer if there are no validation errors
-            if(isSuccess())
-            {
+//            if(isSuccess())
+//            {
                 context = new InitialContext();
                 customerSessionRemote = (CustomerSessionRemote) context.lookup(
                         "vrw_GadgetShop/CustomerSession/remote");
 
                 customerSessionRemote.register(customer);
-            }
+//            }
 
             return customer;
 
         }
         catch(Exception e)
         {
-            throw new ServletException("Can't register customer");
+            throw new ServletException(e.getMessage());
         }
 
     }
@@ -136,6 +136,7 @@ public class AccountForm extends Form {
      */
     public void validateEmail(String email, String emailConfirmation) throws GadgetShopValidationException
     {
+        //ToDo: replace throw exception with setError()
         if (!FormUtil.isEmail(email))
         {
             throw new GadgetShopValidationException("Please enter a valid email address");

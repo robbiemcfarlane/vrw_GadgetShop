@@ -47,7 +47,6 @@ public class Account extends HttpServlet {
             // Create a new account
             if(request.getParameter("create-account") != null)
             {
-                out.println(request.getParameter("create-account"));
                 createAccount(request, response);
             }
             // Manage existing account
@@ -68,8 +67,7 @@ public class Account extends HttpServlet {
             out.println(ex.getMessage());
         }
         finally {
-            //ToDo: Remove this
-            out.println("Finally hit.");
+           
             out.close();
         }
     }
@@ -82,7 +80,7 @@ public class Account extends HttpServlet {
      * @param request
      * @param response
      */
-    private void createAccount(HttpServletRequest request, HttpServletResponse response)
+    private void createAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         
         AccountForm accountForm = new AccountForm();
@@ -92,13 +90,15 @@ public class Account extends HttpServlet {
         {
             customer = accountForm.registerCustomer(request);
             
-            request.setAttribute("create-account", accountForm);
-            request.setAttribute("customer", customer);            
+            request.setAttribute("account", accountForm);
+            request.setAttribute("customer", customer);
 
+            request.getRequestDispatcher("/account/create.jsp").forward(request, response);
+            
         }
         catch(Exception e)
         {
-            
+            throw e;
         }
     }
 
@@ -110,7 +110,7 @@ public class Account extends HttpServlet {
      */
     private void manageAccount(HttpServletRequest request, HttpServletResponse response)
     {
-
+        
     }
 
     /**

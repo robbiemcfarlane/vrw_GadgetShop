@@ -10,7 +10,7 @@
 
         <h3>Username</h3>
         <input type="text" name="nickname" maxlength="16"/>
-        <span class="error">${form.messages.nickname}</span>
+        <span class="error">${account.messages.nickname}</span>
 
         <h3>Email Address</h3>
         <input type="text" name="email" maxlength="100"/>
