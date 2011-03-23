@@ -57,8 +57,21 @@ public class CustomerSession implements CustomerSessionRemote, java.io.Serializa
      * @param password customer's password
      * @return true if nickname and password match, false otherwise.
      */
+<<<<<<< HEAD
     public boolean authenticate(String nickname, String password)
     {
         return find(nickname).getPassword().equals(password);
+=======
+    public boolean authenticate(String nickname, String password){
+        Customer c = find(nickname);
+        if (c!=null)
+        {
+            return c.getPassword().equals(password);
+        }
+        else
+        {
+            return false;
+        }
+>>>>>>> origin/master
     }
 }
