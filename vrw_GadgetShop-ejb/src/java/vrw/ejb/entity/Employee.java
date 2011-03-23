@@ -15,6 +15,7 @@ import javax.persistence.*;
  * @author viktor
  */
 @Entity
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class Employee extends Person implements Serializable {
 
     /**
@@ -28,11 +29,11 @@ public class Employee extends Person implements Serializable {
     /**
      *
      * @param nickname nickname to set
-     * @param firstname firstname to set
-     * @param lastname lastname to set
+     * @param firstName firstname to set
+     * @param lastName lastname to set
      * @param password password to set
      */
-    public Employee(String nickname, String firstname, String lastname, String password)
+    public Employee(String nickname, String firstName, String lastName, String password)
     {
         super.setNickname(nickname);
         super.setFirstName(firstName);

@@ -16,6 +16,10 @@
         <servlet-name>Index</servlet-name>
         <servlet-class>Controller.Index</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>Controller.Admin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExampleController</servlet-name>
         <url-pattern>/ExampleController</url-pattern>
@@ -33,6 +37,10 @@
     <servlet-mapping>
         <servlet-name>Index</servlet-name>
         <url-pattern>/Index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/admin/login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

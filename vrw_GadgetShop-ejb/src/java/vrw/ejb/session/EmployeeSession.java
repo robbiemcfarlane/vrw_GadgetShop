@@ -5,6 +5,7 @@
 
 package vrw.ejb.session;
 
+import java.io.Serializable;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +18,7 @@ import vrw.ejb.entity.Employee;
  */
 @Stateless
 @Remote(EmployeeSessionRemote.class)
-public class EmployeeService implements EmployeeSessionRemote {
+public class EmployeeSession implements EmployeeSessionRemote, Serializable {
 
     @PersistenceContext
     private EntityManager em;

@@ -18,6 +18,8 @@ import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.entity.Customer;
 import vrw.ejb.session.CustomerSessionRemote;
 import java.util.Collection;
+import vrw.ejb.entity.Employee;
+import vrw.ejb.session.EmployeeSessionRemote;
 
 /**
  *
@@ -46,6 +48,7 @@ public class ExampleController extends HttpServlet
 
                 ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
                 CustomerSessionRemote customerSession = (CustomerSessionRemote) context.lookup("vrw_GadgetShop/CustomerSession/remote");
+                EmployeeSessionRemote employeeSession = (EmployeeSessionRemote) context.lookup("vrw_GadgetShop/EmployeeSession/remote");
 
                 // Create 2 dummy items
                 Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), true);
@@ -58,17 +61,23 @@ public class ExampleController extends HttpServlet
                 // Create a new customer
                 Customer cust1 = new Customer("admin", "admin", "admin", "pwd123", "Random Business Estate", "Unit 1", "Norwich", "Norfolk", "NR2 1AB", "England", "me@me.com");
 
+                Employee viktor = new Employee("viktor","Viktor","Peacock","admin");
+                Employee robbie = new Employee("robbie","Robbie","McFarlane","admin");
+                Employee will = new Employee("will","Will","Atterson","admin");
+                
                 // Add the customer to the database (persist)
                 customerSession.register(cust1);
+
+                employeeSession.register(viktor);
+                employeeSession.register(will);
+                employeeSession.register(robbie);
 
                 // Retrieve the items that are in the shop window
                 Collection<Item> itemList = itemSession.findAllInShopWindow();
 
                 request.setAttribute("itemList", itemList);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop_window.jsp");
-                dispatcher.forward(request, response);
-
-                // Comment
+                dispatcher.forward(request, response);                
             }
             catch (NamingException e)
             {
