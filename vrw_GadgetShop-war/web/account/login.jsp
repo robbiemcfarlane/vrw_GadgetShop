@@ -16,7 +16,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" maxlength="32" value="" />
             <span class="error">${errorMessages.password}</span>
-
+            
             <input type="submit" name="login" title="Login" value="Login" />
 
         </fieldset>

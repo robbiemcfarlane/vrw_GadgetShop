@@ -149,8 +149,8 @@ public class Account extends HttpServlet
                 //If authentication fails, than re-direct back to the login form with appropriate error message
                 else
                 {
-                    //ToDo: add error message
-                    request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+                    //ToDo: Review text
+                    accountLoginForm.setMessage("password","Nickname and password combination is incorrect");
                 }
             }
 
@@ -158,10 +158,11 @@ public class Account extends HttpServlet
         }
         catch(GadgetShopValidationException e)
         {
-            request.setAttribute("errorMessages", accountLoginForm.getMessages());
+            
         }
         catch (Exception e){ }
 
+        request.setAttribute("errorMessages", accountLoginForm.getMessages());
         request.getRequestDispatcher("/account/login.jsp").forward(request, response);
 
     }
