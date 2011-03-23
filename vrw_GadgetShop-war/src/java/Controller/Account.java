@@ -17,6 +17,7 @@ import vrw.ejb.entity.Customer;
 import Utils.AccountLoginForm;
 import Utils.GadgetShopValidationException;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -37,30 +38,6 @@ public class Account extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        try
-        {
-            String servletPath = request.getServletPath();
-
-            // Create a new account
-            if (servletPath.equals("/account/register"))
-            {
-                register(request, response);
-            }
-            // Manage existing account
-            else if (servletPath.equals("/account/manage"))
-            {
-                manageAccount(request, response);
-            }
-            // Login
-            else if (servletPath.equals("/account/login"))
-            {
-                login(request, response);
-            }
-
-        }
-        catch (Exception ex)
-        {
-        }
     }
 
     /**
@@ -70,28 +47,24 @@ public class Account extends HttpServlet
      * @param response
      */
     private void register(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
     {
-        AccountCreateForm accountCreateForm = null;
+        AccountCreateForm accountCreateForm = new AccountCreateForm();
 
         try
         {
-            // Postback
-            if (request.getMethod().toUpperCase().equals("POST"))
-            {
-                accountCreateForm = new AccountCreateForm();
+            Customer customer = accountCreateForm.registerCustomer(request.getParameterMap());
 
-                Customer customer = accountCreateForm.registerCustomer(request.getParameterMap());
+            //ToDo: speak to Robbie/Will about refactoring this.
+            InitialContext context = new InitialContext();
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
+                    "vrw_GadgetShop/CustomerSession/remote");
 
-                //ToDo: speak to Robbie/Will about refactoring this.
-                InitialContext context = new InitialContext();
-                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                        "vrw_GadgetShop/CustomerSession/remote");
+            customerSessionRemote.register(customer);
 
-                customerSessionRemote.register(customer);
-
-            }
-
-            request.getRequestDispatcher("/account/create.jsp").forward(request, response);
+            // Log the customer in
+            request.getSession().setAttribute("nickname", customer.getNickname());
+            response.sendRedirect("/account/manage");
         }
         catch (GadgetShopValidationException e)
         {
@@ -100,6 +73,7 @@ public class Account extends HttpServlet
         catch (Exception e)
         {
         }
+        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
     }
 
     /**
@@ -108,7 +82,8 @@ public class Account extends HttpServlet
      * @param request
      * @param response
      */
-    private void manageAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
+    private void manageAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
     {
         PrintWriter out = response.getWriter();
         out.println("MANAGE ACCOUNT");
@@ -120,7 +95,8 @@ public class Account extends HttpServlet
      * @param request
      * @param response
      */
-    private void login(HttpServletRequest request, HttpServletResponse response) throws Exception
+    private void login(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
     {
         try
         {
@@ -133,7 +109,7 @@ public class Account extends HttpServlet
 
             //To authenticate cutomer
             InitialContext context = new InitialContext();
-            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
                     "vrw_GadgetShop/CustomerSession/remote");
 
             //If authentication succeeds than store customer nickname in the session
@@ -152,8 +128,8 @@ public class Account extends HttpServlet
 
 
 
-            
-            
+
+
 
             //ToDo: Validation errors: empty user/password fields, username doesn't exist, password is incorrect
         }
@@ -178,7 +154,19 @@ public class Account extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        String servletPath = request.getServletPath();
+        String url = null;    
+
+        // Register
+        if (servletPath.equals("/account/register"))
+        {
+            url = "/account/register.jsp";
+        }
+        else if(servletPath.equals("/account/manage"))
+        {
+            url = "/account/manage.jsp";
+        }
+        request.getRequestDispatcher(url).forward(request,response);
     }
 
     /** 
@@ -192,10 +180,26 @@ public class Account extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        String servletPath = request.getServletPath();
+
+        // Create a new account
+        if (servletPath.equals("/account/register"))
+        {
+            register(request, response);
+        }
+        // Manage existing account
+        else if (servletPath.equals("/account/manage"))
+        {
+            manageAccount(request, response);
+        }
+        // Login
+        else if (servletPath.equals("/account/login"))
+        {
+            login(request, response);
+        }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
      * @return a String containing servlet description
      */
@@ -203,5 +207,6 @@ public class Account extends HttpServlet
     public String getServletInfo()
     {
         return "Short description";
+
     }// </editor-fold>
 }
