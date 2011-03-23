@@ -122,47 +122,47 @@ public class Account extends HttpServlet
      */
     private void login(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
+        Customer customer = null;
+        AccountLoginForm accountLoginForm = null;
+
         try
         {
             //Read nickname and password
-            AccountLoginForm accountLoginForm = new AccountLoginForm();
-            Customer customer = accountLoginForm.loginCustomer(request.getParameterMap());
+            accountLoginForm = new AccountLoginForm();
 
-
-
-
-            //To authenticate cutomer
-            InitialContext context = new InitialContext();
-            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
-
-            //If authentication succeeds than store customer nickname in the session
-            if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
-            {
-                request.getSession().setAttribute("nickname", customer.getNickname());
-                response.sendRedirect("/account/manage");
-
-            }
-            //If authentication fails, than re-direct back to the login form with appropriate error message
-            else
-            {
-                request.setAttribute("errorMessages", accountLoginForm.getMessages());
-                request.getRequestDispatcher("/account/login.jsp").forward(request, response);
-            }
-
-
-
+            customer = accountLoginForm.loginCustomer(request.getParameterMap());
             
-            
+            if(accountLoginForm.isSuccess())
+            {
+                //To authenticate cutomer
+                InitialContext context = new InitialContext();
+                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
+                        "vrw_GadgetShop/CustomerSession/remote");
+
+                //If authentication succeeds than store customer nickname in the session
+                if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
+                {
+                    request.getSession().setAttribute("nickname", customer.getNickname());
+                    response.sendRedirect("account/manage");
+
+                }
+                //If authentication fails, than re-direct back to the login form with appropriate error message
+                else
+                {
+                    //ToDo: add error message
+                    request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+                }
+            }
 
             //ToDo: Validation errors: empty user/password fields, username doesn't exist, password is incorrect
         }
-        catch (GadgetShopValidationException e)
+        catch(GadgetShopValidationException e)
         {
+            request.setAttribute("errorMessages", accountLoginForm.getMessages());
         }
-        catch (Exception e)
-        {
-        }
+        catch (Exception e){ }
+
+        request.getRequestDispatcher("/account/login.jsp").forward(request, response);
 
     }
 

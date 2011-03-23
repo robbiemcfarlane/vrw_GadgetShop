@@ -73,7 +73,7 @@ public class AccountCreateForm extends AccountForm
         else
         {
             return new Customer(nickname, firstName, lastName, password, address1, address2, city, county, postcode, country, email);
-            }
+        }
     }
 
     /**
