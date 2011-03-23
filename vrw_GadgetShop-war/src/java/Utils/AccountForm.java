@@ -4,13 +4,10 @@
  */
 package Utils;
 
-import javax.naming.InitialContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
+import java.util.Map;
 import vrw.ejb.entity.Customer;
-import vrw.ejb.session.CustomerSessionRemote;
+
 
 /**
  *
@@ -38,6 +35,7 @@ public class AccountForm extends Form
     {
         super();
     }
+    
     /**
      * Register a customer
      * @param customer to registerCustomer
@@ -47,11 +45,11 @@ public class AccountForm extends Form
         // If any parameters are null, user has edited form, so a NullPointerException
         // will be generated and caught by the application error page
         String nickname = fields.get(FIELD_NICKNAME)[0].trim();
-        this.validateNickname(nickname);
+        validateNickname(nickname);
         
         String email = fields.get(FIELD_EMAIL)[0].trim();
         String emailConfirmation = fields.get(FIELD_EMAIL_CONFIRMATION)[0].trim();
-        this.validateEmail(email, emailConfirmation);
+        validateEmail(email, emailConfirmation);
 
         String password = fields.get(FIELD_PASSWORD)[0].trim();
         String passwordConfirmation = fields.get(FIELD_PASSWORD_CONFIRMATION)[0].trim();

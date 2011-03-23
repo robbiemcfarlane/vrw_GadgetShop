@@ -82,6 +82,7 @@ public class Account extends HttpServlet
 
                 Customer customer = accountForm.registerCustomer(request.getParameterMap());
 
+                //ToDo: speak to Robbie/Will about refactoring this.
                 InitialContext context = new InitialContext();
                 CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
                         "vrw_GadgetShop/CustomerSession/remote");
@@ -122,35 +123,24 @@ public class Account extends HttpServlet
      */
     private void login(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        PrintWriter out = response.getWriter();
-        out.println("LOGIN");
-        
-        /*String nickname = null;
-        String password = null;
-
         try
         {
-            nickname = request.getParameter("nickname").trim();
-            password = request.getParameter("password").trim();
+            //Read nickname and password
 
-             context = new InitialContext();
-             customerSessionRemote = (CustomerSessionRemote) context.lookup(
-                    "vrw_GadgetShop/CustomerSession/remote");
+            
 
-             if (customerSessionRemote.authenticate(nickname, password))
-             {
-                // Store nickname in the session
-                request.getSession().setAttribute("nickname", nickname);
-                response.sendRedirect("/items/");
-             }
-             else
-             {
-                 // ToDo:
-             }
+            //To authenticate cutomer
+            //If authentication succeeds than store customer nickname in the session
+            //If authentication fails, than re-direct back to the login form with appropriate error message
+
+
+            //ToDo: Validation errors: empty user/password fields, username doesn't exist, password is incorrect
         }
-        catch (Exception e)
+        catch(Exception e)
         {
-        }*/
+
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
