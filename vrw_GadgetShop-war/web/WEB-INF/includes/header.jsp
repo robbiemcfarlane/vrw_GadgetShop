@@ -28,11 +28,13 @@
             </div>
 
             <ul id="nav" class="clearfix">
+                <li><a href="ExampleController">Load Test Data</a></li>
                 <li><a href="./">Home</a></li>
                 <li><a href="ItemController">Gadgets</a></li>
                 <li><a href="account/register">Register</a></li>
                 <li><a href="account/manage">Manage Account</a></li>
                 <li><a href="account/login">Login</a></li>
+
             </ul>
 
             <div id="content">
