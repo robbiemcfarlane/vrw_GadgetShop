@@ -7,7 +7,6 @@ package vrw.ejb.session;
 
 import java.util.Collection;
 import vrw.ejb.entity.Customer;
-import javax.servlet.http.HttpSession;
 
 /**
  *
