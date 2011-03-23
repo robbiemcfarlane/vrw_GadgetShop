@@ -4,18 +4,23 @@
 
     <h1>Login</h1>
 
-    <form action="login" method="post">
+    <form action="account/register" method="post">
+        
+        <fieldset>
+        <legend>Please enter your login details below</legend>
 
-        <h2>Login</h2>
+            <label for="nickname">Nickname</label>
+            <input type="text" name="nickname" id="nickname" maxlength="16" value="${param.nickname}" />
+            <span class="error">${errorMessages.nickname}</span>
 
-        <h3>Username</h3>
-        <input type="text" name="nickname" maxlength="16"/>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" maxlength="32" value="${param.password}" />
+            <span class="error">${errorMessages.password}</span>
 
-        <h3>Password</h3>
-        <input type="password" name="password" maxlength="32"/>
+            <input type="submit" name="login" title="Login" value="Login" />
 
-        <input type="submit" name="login" title="Login" value="Login" />
-
+        </fieldset>
     </form>
+
 
 <%@include file="../WEB-INF/includes/footer.jsp" %>

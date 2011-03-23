@@ -14,6 +14,8 @@ import vrw.ejb.session.CustomerSessionRemote;
 import vrw.ejb.entity.Customer;
 
 import Utils.AccountForm;
+import Utils.GadgetShopValidationException;
+import javax.naming.NamingException;
 
 /**
  *
@@ -34,8 +36,6 @@ public class Account extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         try
         {
             String servletPath = request.getServletPath();
@@ -59,49 +59,47 @@ public class Account extends HttpServlet
         }
         catch (Exception ex)
         {
-            out.println(ex.getMessage());
-        }
-        finally
-        {
 
-            out.close();
         }
     }
 
     /**
-     * Create a new customer account
-     *
+     * Create a new customer account     *
      * 
      * @param request
      * @param response
      */
-    private void register(HttpServletRequest request, HttpServletResponse response) throws Exception
+    private void register(HttpServletRequest request, HttpServletResponse response) 
     {
-        // Postback
-        if (request.getMethod().toUpperCase().equals("POST"))
+        AccountForm accountForm = null;
+
+        try
         {
-            AccountForm accountForm = new AccountForm();
-            try
-            {       
+            // Postback
+            if (request.getMethod().toUpperCase().equals("POST"))
+            {
+                accountForm = new AccountForm();
+
                 Customer customer = accountForm.registerCustomer(request.getParameterMap());
 
-                // Success...
                 InitialContext context = new InitialContext();
-                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup("vrw_GadgetShop/CustomerSession/remote");
+                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
+                        "vrw_GadgetShop/CustomerSession/remote");
 
                 customerSessionRemote.register(customer);
 
-                //customerSessionRemote.login(request.getSession(), customer.getNickname(), customer.getPassword());
+            }
 
-                //response.sendRedirect("/account/my-account");
-            }
-            catch (Utils.GadgetShopValidationException gsve)
-            {
-                request.setAttribute("errorMessages", accountForm.getMessages());
-            }
+            request.getRequestDispatcher("/account/create.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("/account/create.jsp").forward(request, response);
+        catch (GadgetShopValidationException e)
+        {
+            request.setAttribute("errorMessages", accountForm.getMessages());
+        }
+        catch(Exception e)
+        {
+        
+        }
     }
 
     /**
