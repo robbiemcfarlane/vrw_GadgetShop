@@ -10,12 +10,18 @@ import java.util.Map;
  */
 public class Form
 {
-    protected Map<String, String> messages = new LinkedHashMap<String, String>();
+    protected Map<String, String> messages;
 
     /**
      * Returns all messages for the form.
      * @return all messages for the form.
      */
+
+    public Form()
+    {
+        this.messages = new LinkedHashMap<String, String>();
+    }
+    
     public Map<String, String> getMessages()
     {
         return messages;

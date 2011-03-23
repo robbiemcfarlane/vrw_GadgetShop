@@ -6,22 +6,22 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import vrw.ejb.entity.Item;
-import vrw.ejb.session.ItemSessionRemote;
+import javax.servlet.RequestDispatcher;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import vrw.ejb.session.ItemSessionRemote;
+import java.util.Collection;
+import vrw.ejb.entity.Item;
 /**
  *
  * @author Robbie
  */
-public class ItemController extends HttpServlet
+public class Index extends HttpServlet
 {
 
     /** 
@@ -38,97 +38,23 @@ public class ItemController extends HttpServlet
         PrintWriter out = response.getWriter();
         try
         {
-            String itemId = request.getParameter("item");
-
             InitialContext context = new InitialContext();
-
             ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
 
-            Collection<Item> itemList = itemSession.findAll();
+            // Retrieve the items that are in the shop window
+            Collection<Item> itemList = itemSession.findAllInShopWindow();
 
             request.setAttribute("itemList", itemList);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/items.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
             dispatcher.forward(request, response);
         }
-        catch (NamingException ne)
+        catch(NamingException ne)
         {
             ne.printStackTrace();
         }
         finally
         {
             out.close();
-        }
-    }
-
-    protected void item(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
-
-
-
-
-
-
-
-        try
-        {
-            String itemId = request.getParameter("item");
-
-
-
-
-
-
-
-
-
-            if (itemId != null)
-            {
-                InitialContext context = new InitialContext();
-
-                ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
-
-                Item item = itemSession.find(Integer.parseInt(itemId));
-
-                request.setAttribute("item", item);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/item.jsp");
-                dispatcher.forward(request, response);
-
-
-
-
-
-
-
-
-            }
-        }
-        catch (NamingException ne)
-        {
-            ne.printStackTrace();
-
-
-
-
-
-
-
-
-        }
-        finally
-        {
-            out.close();
-
-
-
-
-
-
-
-
         }
     }
 
@@ -145,14 +71,6 @@ public class ItemController extends HttpServlet
             throws ServletException, IOException
     {
         processRequest(request, response);
-
-
-
-
-
-
-
-
     }
 
     /** 
@@ -167,14 +85,6 @@ public class ItemController extends HttpServlet
             throws ServletException, IOException
     {
         processRequest(request, response);
-
-
-
-
-
-
-
-
     }
 
     /** 
@@ -185,9 +95,5 @@ public class ItemController extends HttpServlet
     public String getServletInfo()
     {
         return "Short description";
-
-
-
-
     }// </editor-fold>
 }

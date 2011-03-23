@@ -9,12 +9,12 @@ h1,h2,h3,input,a,ul,li,p
 
 body
 {
-    font-family: "Verdana,Arial,Sans-Serif";
+    font-family: verdana,arial,sans-serif;
     font-size: 62.5%;
     text-align: center;
 }
 
-
+h1,h2,h3,h4,h5,h6 { font-weight: bold }
 h1{font-size: 2em;}
 h2{font-size: 1.6em;}
 h3{font-size: 1.4em;}
@@ -44,11 +44,46 @@ p
 
 #footer {
     clear: both;
+    text-align: center;
 }
 
 
+#nav {
+    width: 100%;
+    background-color: #444444;
+    line-height: 30px;
+}
+#nav li {
+    list-style-type: none;
+    display: inline;
+}
+#nav li a {
+    padding: 7px 10px;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+}
+#nav li a:hover {
+    background-color: #333333;
+}
+
+form fieldset {
+    margin-bottom: 10px;
+}
+form fieldset legend {
+    display: block;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+form label {
+    display: block;
+    margin-top: 4px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
 form .error
 {
+    display: block;
     color: red;
     font-weight: bold;
 }

@@ -8,14 +8,16 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="../content/style/style.css" />
-        <title>${pageTitle} | Global Gadgets</title>
+        <base href="http://localhost:8080/vrw/" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="content/style/reset.css" />
+        <link rel="stylesheet" type="text/css" href="content/style/style.css" />
+        <title>${param.page_title} | Global Gadgets</title>
     </head>
     <body>
 
@@ -25,11 +27,12 @@
                 <h1>Global Gadgets</h1>
             </div>
 
-            <ul id="nav">
+            <ul id="nav" class="clearfix">
+                <li><a href="./">Home</a></li>
                 <li><a href="ItemController">Gadgets</a></li>
-                <li><a href="/account/create">Create Account</a></li>
-                <li><a href="/account/manage">Manage Account</a></li>
-                <li><a href="/account/login">Login</a></li>
+                <li><a href="account/register">Register</a></li>
+                <li><a href="account/manage">Manage Account</a></li>
+                <li><a href="account/login">Login</a></li>
             </ul>
 
             <div id="content">

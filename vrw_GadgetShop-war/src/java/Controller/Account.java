@@ -13,8 +13,6 @@ import vrw.ejb.session.CustomerSessionRemote;
 
 import vrw.ejb.entity.Customer;
 
-import Utils.FormUtil;
-import Utils.Form;
 import Utils.AccountForm;
 
 /**
@@ -40,25 +38,24 @@ public class Account extends HttpServlet
         PrintWriter out = response.getWriter();
         try
         {
-
-            String path = request.getServletPath().split("/")[1];
-
+            String servletPath = request.getServletPath();
+           
             // Create a new account
-            if (path.equals("register"))
+            if (servletPath.equals("/account/register"))
             {
                 register(request, response);
             }
             // Manage existing account
-            else if (path.equals("manage"))
+            else if (servletPath.equals("/account/manage"))
             {
+                manageAccount(request, response);
             }
             // Login
-            else if (path.equals("login"))
+            else if (servletPath.equals("/account/login"))
             {
-                authenticate(request, response);
+                login(request, response);
             }
-
-
+            
         }
         catch (Exception ex)
         {
@@ -81,7 +78,7 @@ public class Account extends HttpServlet
     private void register(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         // Postback
-        if (request.getMethod().equals("post"))
+        if (request.getMethod().toUpperCase().equals("POST"))
         {
             AccountForm accountForm = new AccountForm();
             try
@@ -94,19 +91,17 @@ public class Account extends HttpServlet
 
                 customerSessionRemote.register(customer);
 
-                customerSessionRemote.login(request.getSession(), customer.getNickname(), customer.getPassword());
+                //customerSessionRemote.login(request.getSession(), customer.getNickname(), customer.getPassword());
 
-                response.sendRedirect("/account/my-account");
+                //response.sendRedirect("/account/my-account");
             }
             catch (Utils.GadgetShopValidationException gsve)
             {
-                // Errors...
-                request.setAttribute("errMessages", accountForm.getMessages());
+                request.setAttribute("errorMessages", accountForm.getMessages());
             }
         }
 
         request.getRequestDispatcher("/account/create.jsp").forward(request, response);
-
     }
 
     /**
@@ -115,8 +110,10 @@ public class Account extends HttpServlet
      * @param request
      * @param response
      */
-    private void manageAccount(HttpServletRequest request, HttpServletResponse response)
+    private void manageAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
+        PrintWriter out = response.getWriter();
+        out.println("MANAGE ACCOUNT");
     }
 
     /**
@@ -125,34 +122,37 @@ public class Account extends HttpServlet
      * @param request
      * @param response
      */
-    private void authenticate(HttpServletRequest request, HttpServletResponse response)
+    private void login(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        String nickname = null;
+        PrintWriter out = response.getWriter();
+        out.println("LOGIN");
+        
+        /*String nickname = null;
         String password = null;
 
         try
         {
-//            nickname = request.getParameter("nickname").trim();
-//            password = request.getParameter("password").trim();
-//
-//             context = new InitialContext();
-//             customerSessionRemote = (CustomerSessionRemote) context.lookup(
-//                    "vrw_GadgetShop/CustomerSession/remote");
-//
-//             if (customerSessionRemote.authenticate(nickname, password))
-//             {
-//                // Store nickname in the session
-//                request.getSession().setAttribute("nickname", nickname);
-//                response.sendRedirect("/items/");
-//             }
-//             else
-//             {
-//                 // ToDo:
-//             }
+            nickname = request.getParameter("nickname").trim();
+            password = request.getParameter("password").trim();
+
+             context = new InitialContext();
+             customerSessionRemote = (CustomerSessionRemote) context.lookup(
+                    "vrw_GadgetShop/CustomerSession/remote");
+
+             if (customerSessionRemote.authenticate(nickname, password))
+             {
+                // Store nickname in the session
+                request.getSession().setAttribute("nickname", nickname);
+                response.sendRedirect("/items/");
+             }
+             else
+             {
+                 // ToDo:
+             }
         }
         catch (Exception e)
         {
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

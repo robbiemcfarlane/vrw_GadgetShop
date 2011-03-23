@@ -12,6 +12,10 @@
         <servlet-name>Account</servlet-name>
         <servlet-class>Controller.Account</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Index</servlet-name>
+        <servlet-class>Controller.Index</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExampleController</servlet-name>
         <url-pattern>/ExampleController</url-pattern>
@@ -22,9 +26,13 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Account</servlet-name>
-        <url-pattern>/account/create</url-pattern>
+        <url-pattern>/account/register</url-pattern>
         <url-pattern>/account/login</url-pattern>
         <url-pattern>/account/manage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -32,6 +40,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>Index</welcome-file>
     </welcome-file-list>
 </web-app>

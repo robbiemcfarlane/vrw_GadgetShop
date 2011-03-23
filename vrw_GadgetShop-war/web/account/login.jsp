@@ -1,10 +1,10 @@
 <jsp:include page="/WEB-INF/includes/header.jsp">
-    <jsp:param name="pageTitle" value="Login" />
+    <jsp:param name="page_title" value="Login" />
 </jsp:include>
 
     <h1>Login</h1>
 
-    <form action="login" method="POST">
+    <form action="login" method="post">
 
         <h2>Login</h2>
 

@@ -1,9 +1,10 @@
-<jsp:include page="WEB-INF/includes/header.jsp">
-    <jsp:param name="pageTitle" value="Welcome to Global Gadgets" />
-</jsp:include>
+<%@include file="WEB-INF/includes/header.jsp" %>
 
     <p>
         Welcome to Global Gadgets.
     </p>
 
-<%@include file="../WEB-INF/includes/footer.jsp" %>
+    <!-- List of shop window items -->
+    <%@include file="WEB-INF/includes/item_list.jsp" %>
+
+<%@include file="WEB-INF/includes/footer.jsp" %>

@@ -1,58 +1,75 @@
-<%@page import="Utils.FormFields" %>
 <jsp:include page="/WEB-INF/includes/header.jsp">
-    <jsp:param name="pageTitle" value="Create Account" />
+    <jsp:param name="page_title" value="Create Account" />
 </jsp:include>
 
 
     <h1>Create Account</h1>
 
-    <form action="create" method="POST">
+    <form action="account/register" method="post">
 
-        <h2>Personal Details</h2>
+        <fieldset>
+        <legend>Personal Details</legend>
 
-        <h3>Username</h3>
-        <input type="text" name="nickname" maxlength="16" value="${param.nickname}"/>
-        <span class="error">${account.messages.nickname}</span>
+            <label for="nickname">Nickname</label>
+            <input type="text" name="nickname" id="nickname" maxlength="16" value="${param.nickname}" />
+            <span class="error">${errorMessages.nickname}</span>
 
-        <h3>Email Address</h3>
-        <input type="text" name="email" maxlength="100"/>
+            <label for="email">Email Address</label>
+            <input type="text" name="email" id="email" maxlength="100" value="${param.email}" />
+            <span class="error">${errorMessages.email}</span>
 
-        <h3>Email Address Confirmation</h3>
-        <input type="text" name="email-confirmation" maxlength="100"/>
+            <label for="email-confirmation">Email Address Confirmation</label>
+            <input type="text" name="email-confirmation" id="email-confirmation" maxlength="100" value="${param['email-confirmation']}" />
+            <span class="error">${errorMessages['email-confirmation']}</span>
 
-        <h3>Password</h3>
-        <input type="password" name="password" maxlength="32" />
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" maxlength="32" value="${param.password}" />
+            <span class="error">${errorMessages.password}</span>
 
-        <h3>Password Confirmation</h3>
-        <input type="password" name="password-confirmation" maxlength="32" />
+            <label for="password-confirmation">Password Confirmation</label>
+            <input type="password" name="password-confirmation" id="password-confirmation" maxlength="32" value="${param['password-confirmation']}" />
+            <span class="error">${errorMessages['password-confirmation']}</span>
 
-        <h2>Contact Details</h2
+        </fieldset>
 
-        <h3>First name</h3>
-        <input type="text" name="first-name" maxlength="50" />
+        <fieldset>
+        <legend>Contact Details</legend>
 
-        <h3>Last name</h3>
-        <input type="text" name="last-name" maxlength="50" />
+            <label for="first-name">First name</label>
+            <input type="text" name="first-name" id="first-name" maxlength="50" value="${param['first-name']}" />
+            <span class="error">${errorMessages['first-name']}</span>
 
-        <h3>Address 1</h3>
-        <input type="text" name="address-1" maxlength="50" />
+            <label for="last-name">Last name</label>
+            <input type="text" name="last-name" id="last-name" maxlength="50" value="${param['last-name']}" />
+            <span class="error">${errorMessages['last-name']}</span>
 
-        <h3>Address 2</h3>
-        <input type="text" name="address-2" maxlength="50"/>
+            <label for="address-1">Address 1</label>
+            <input type="text" name="address-1" id="address-1" maxlength="50" value="${param['address-1']}" />
+            <span class="error">${errorMessages['address-1']}</span>
 
-        <h3>City</h3>
-        <input type="text" name="city" maxlength="50"/>
+            <label for="address-2">Address 2</label>
+            <input type="text" name="address-2" id="address-2" maxlength="50" value="${param['address-2']}" />
+            <span class="error">${errorMessages['address-2']}</span>
 
-        <h3>County</h3>
-        <input type="text" name="county" maxlength="50"/>
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" maxlength="50" value="${param.city}" />
+            <span class="error">${errorMessages.city}</span>
 
-        <h3>Postcode</h3>
-        <input type="text" name="postcode" maxlength="30"/>
+            <label for="county">County</label>
+            <input type="text" name="county" id="county" maxlength="50" value="${param.county}" />
+            <span class="error">${errorMessages.county}</span>
 
-        <h3>Country</h3>
-        <input type="text" name="country" maxlength="80"/>
+            <label for="postcode">Postcode</label>
+            <input type="text" name="postcode" id="postcode" maxlength="30" value="${param.postcode}" />
+            <span class="error">${errorMessages.postcode}</span>
 
-        <input type="submit" title="Create Account" value="Create Account" />
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country" maxlength="80" value="${param.country}" />
+            <span class="error">${errorMessages.country}</span>
+
+        </fieldset>
+
+        <input type="submit" name="create-account" title="Create Account" value="Create Account" />
 
     </form>
 
