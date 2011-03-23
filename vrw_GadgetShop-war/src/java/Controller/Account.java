@@ -1,5 +1,6 @@
 package Controller;
 
+import Utils.AccountCreateForm;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.naming.InitialContext;
@@ -13,7 +14,7 @@ import vrw.ejb.session.CustomerSessionRemote;
 
 import vrw.ejb.entity.Customer;
 
-import Utils.AccountForm;
+import Utils.AccountLoginForm;
 import Utils.GadgetShopValidationException;
 import javax.naming.NamingException;
 
@@ -39,7 +40,7 @@ public class Account extends HttpServlet
         try
         {
             String servletPath = request.getServletPath();
-           
+
             // Create a new account
             if (servletPath.equals("/account/register"))
             {
@@ -55,11 +56,10 @@ public class Account extends HttpServlet
             {
                 login(request, response);
             }
-            
+
         }
         catch (Exception ex)
         {
-
         }
     }
 
@@ -69,18 +69,18 @@ public class Account extends HttpServlet
      * @param request
      * @param response
      */
-    private void register(HttpServletRequest request, HttpServletResponse response) 
+    private void register(HttpServletRequest request, HttpServletResponse response)
     {
-        AccountForm accountForm = null;
+        AccountCreateForm accountCreateForm = null;
 
         try
         {
             // Postback
             if (request.getMethod().toUpperCase().equals("POST"))
             {
-                accountForm = new AccountForm();
+                accountCreateForm = new AccountCreateForm();
 
-                Customer customer = accountForm.registerCustomer(request.getParameterMap());
+                Customer customer = accountCreateForm.registerCustomer(request.getParameterMap());
 
                 //ToDo: speak to Robbie/Will about refactoring this.
                 InitialContext context = new InitialContext();
@@ -95,11 +95,10 @@ public class Account extends HttpServlet
         }
         catch (GadgetShopValidationException e)
         {
-            request.setAttribute("errorMessages", accountForm.getMessages());
+            request.setAttribute("errorMessages", accountCreateForm.getMessages());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-        
         }
     }
 
@@ -126,21 +125,45 @@ public class Account extends HttpServlet
         try
         {
             //Read nickname and password
+            AccountLoginForm accountLoginForm = new AccountLoginForm();
+            Customer customer = accountLoginForm.loginCustomer(request.getParameterMap());
 
-            
+
+
 
             //To authenticate cutomer
-            //If authentication succeeds than store customer nickname in the session
-            //If authentication fails, than re-direct back to the login form with appropriate error message
+            InitialContext context = new InitialContext();
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
+                    "vrw_GadgetShop/CustomerSession/remote");
 
+            //If authentication succeeds than store customer nickname in the session
+            if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
+            {
+                request.getSession().setAttribute("nickname", customer.getNickname());
+                response.sendRedirect("/account/manage");
+
+            }
+            //If authentication fails, than re-direct back to the login form with appropriate error message
+            else
+            {
+                request.setAttribute("errorMessages", accountLoginForm.getMessages());
+                request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+            }
+
+
+
+            
+            
 
             //ToDo: Validation errors: empty user/password fields, username doesn't exist, password is incorrect
         }
-        catch(Exception e)
+        catch (GadgetShopValidationException e)
         {
-
         }
-        
+        catch (Exception e)
+        {
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

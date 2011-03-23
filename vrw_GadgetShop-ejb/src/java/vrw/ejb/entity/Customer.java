@@ -66,6 +66,18 @@ public class Customer extends Person implements Serializable {
         this.active = true;
     }
 
+    /**
+     * Constructor for use in the login process.
+     *
+     * @param nickname  the nickname to set
+     * @param password  the password to set
+     */
+    public Customer(String nickname, String password)
+    {
+        this.nickname = nickname;
+        this.password = password;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

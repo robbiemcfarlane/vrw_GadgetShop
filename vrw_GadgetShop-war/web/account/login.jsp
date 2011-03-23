@@ -4,7 +4,7 @@
 
     <h1>Login</h1>
 
-    <form action="account/register" method="post">
+    <form action="account/login" method="post">
         
         <fieldset>
         <legend>Please enter your login details below</legend>
@@ -14,7 +14,7 @@
             <span class="error">${errorMessages.nickname}</span>
 
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" maxlength="32" value="${param.password}" />
+            <input type="password" name="password" id="password" maxlength="32" value="" />
             <span class="error">${errorMessages.password}</span>
 
             <input type="submit" name="login" title="Login" value="Login" />
