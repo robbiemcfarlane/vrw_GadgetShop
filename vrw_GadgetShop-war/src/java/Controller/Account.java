@@ -100,7 +100,7 @@ public class Account extends HttpServlet
     {
         Customer customer = null;
         AccountLoginForm accountLoginForm = null;
-        
+
         String url = "/account/login.jsp";
 
         try
@@ -108,13 +108,13 @@ public class Account extends HttpServlet
             //Read nickname and password
             accountLoginForm = new AccountLoginForm();
 
-           
-            customer = accountLoginForm.loginCustomer(request.getParameterMap());            
-            
+
+            customer = accountLoginForm.loginCustomer(request.getParameterMap());
+
 
             //To authenticate cutomer
             InitialContext context = new InitialContext();
-            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
                     "vrw_GadgetShop/CustomerSession/remote");
 
             //If authentication succeeds than store customer nickname in the session
@@ -133,21 +133,33 @@ public class Account extends HttpServlet
             {
                 //ToDo: Review text
 
-                accountLoginForm.setMessage("password","Nickname and password combination is incorrect");
+                accountLoginForm.setMessage("password", "Nickname and password combination is incorrect");
             }
 
         }
-        catch(GadgetShopValidationException e)
+        catch (GadgetShopValidationException e)
         {
         }
         catch (Exception e)
         {
-        
         }
 
         request.setAttribute("errorMessages", accountLoginForm.getMessages());
         request.getRequestDispatcher("/account/login.jsp").forward(request, response);
 
+    }
+
+    /**
+     * Log out a user.
+     *
+     * @param request
+     * @param response
+     */
+    private void logout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        request.getSession().removeAttribute("nickname");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -170,16 +182,17 @@ public class Account extends HttpServlet
         {
             url = "/account/register.jsp";
         }
-        else if(servletPath.equals("/account/manage"))
+        else if (servletPath.equals("/account/manage"))
         {
             url = "/account/manage.jsp";
         }
-        else if(servletPath.equals("/account/login"))
+        else if (servletPath.equals("/account/login"))
         {
             url = "/account/login.jsp";
         }
-        request.getRequestDispatcher(url).forward(request,response);
-}
+
+        request.getRequestDispatcher(url).forward(request, response);
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -208,6 +221,11 @@ public class Account extends HttpServlet
         else if (servletPath.equals("/account/login"))
         {
             login(request, response);
+        }
+        // Logout
+        else if (servletPath.equals("/account/logout"))
+        {
+            logout(request, response);
         }
     }
 
