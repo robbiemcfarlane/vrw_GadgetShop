@@ -30,7 +30,7 @@
                 <c:if test="${not empty sessionScope.nickname}">
                     Hi ${sessionScope.nickname}! | 
                     <form action="account/logout" method="post">
-                        <input type="submit" value="Log out" class="logout_btn" />
+                        <input type="submit" name="logout" value="Log out" class="logout_btn" />
                     </form>
                 </c:if>
             </div>

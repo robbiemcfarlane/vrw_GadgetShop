@@ -47,33 +47,42 @@ public class Account extends HttpServlet
      * @param response
      */
     private void register(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+            throws ServletException, IOException, NamingException
     {
+        String url = "/account/register.jsp";
         AccountCreateForm accountCreateForm = new AccountCreateForm();
 
         try
         {
             Customer customer = accountCreateForm.registerCustomer(request.getParameterMap());
 
-            //ToDo: speak to Robbie/Will about refactoring this.
             InitialContext context = new InitialContext();
             CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
                     "vrw_GadgetShop/CustomerSession/remote");
 
-            customerSessionRemote.register(customer);
+            // TODO: Check for case sensitivity when looking for existing nickname
+            // Customer with that nickname doesn't already exist
+            if (customerSessionRemote.find(customer.getNickname()) == null)
+            {
+                customerSessionRemote.register(customer);
 
-            // Log the customer in
-            request.getSession().setAttribute("nickname", customer.getNickname());
-            response.sendRedirect("/account/manage");
+                // Log the customer in
+                request.getSession().setAttribute("nickname", customer.getNickname());
+                url = "/account/manage";
+            }
+            // Nickname already exists
+            else
+            {
+                accountCreateForm.setMessage("nickname", "This nickname has already been taken");
+            }
         }
         catch (GadgetShopValidationException e)
         {
-            request.setAttribute("errorMessages", accountCreateForm.getMessages());
+            // No action needed; error messages are added below
         }
-        catch (Exception e)
-        {
-        }
-        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
+
+        request.setAttribute("errorMessages", accountCreateForm.getMessages());
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /**
@@ -85,8 +94,26 @@ public class Account extends HttpServlet
     private void manageAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out = response.getWriter();
-        out.println("MANAGE ACCOUNT");
+        String url = "/account/manage.jsp";
+        Customer customer = null;
+
+        try
+        {
+            InitialContext context = new InitialContext();
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
+                    "vrw_GadgetShop/CustomerSession/remote");
+
+            //ToDo: add exception handling if customer is not logged in
+            customer = customerSessionRemote.find((String) request.getSession().getAttribute("nickname"));
+            request.setAttribute("customer", customer);
+
+            //RequestDispatcher requestDispatcher =
+
+            request.getRequestDispatcher(url).forward(request, response);
+        }
+        catch (Exception e)
+        {
+        }
     }
 
     /**
@@ -96,23 +123,17 @@ public class Account extends HttpServlet
      * @param response
      */
     private void login(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+            throws ServletException, IOException, NamingException
     {
-        Customer customer = null;
-        AccountLoginForm accountLoginForm = null;
-
         String url = "/account/login.jsp";
+        AccountLoginForm accountLoginForm = new AccountLoginForm();
 
         try
         {
-            //Read nickname and password
-            accountLoginForm = new AccountLoginForm();
+            // Read nickname and password
+            Customer customer = accountLoginForm.loginCustomer(request.getParameterMap());
 
-
-            customer = accountLoginForm.loginCustomer(request.getParameterMap());
-
-
-            //To authenticate cutomer
+            // Authenticate customer
             InitialContext context = new InitialContext();
             CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
                     "vrw_GadgetShop/CustomerSession/remote");
@@ -121,32 +142,24 @@ public class Account extends HttpServlet
             if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
             {
                 request.getSession().setAttribute("nickname", customer.getNickname());
-
-                response.sendRedirect("account/manage");
-
                 url = "/account/manage";
-
 
             }
             //If authentication fails, than re-direct back to the login form with appropriate error message
             else
             {
                 //ToDo: Review text
-
                 accountLoginForm.setMessage("password", "Nickname and password combination is incorrect");
             }
 
         }
         catch (GadgetShopValidationException e)
         {
-        }
-        catch (Exception e)
-        {
+            // No action needed; error messages are added below
         }
 
         request.setAttribute("errorMessages", accountLoginForm.getMessages());
-        request.getRequestDispatcher("/account/login.jsp").forward(request, response);
-
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /**
@@ -207,26 +220,34 @@ public class Account extends HttpServlet
     {
         String servletPath = request.getServletPath();
 
-        // Create a new account
-        if (servletPath.equals("/account/register"))
+        try
         {
-            register(request, response);
+            // Create a new account
+            if (servletPath.equals("/account/register"))
+            {
+                register(request, response);
+            }
+            // Manage existing account
+            else if (servletPath.equals("/account/manage"))
+            {
+                manageAccount(request, response);
+            }
+            // Login
+            else if (servletPath.equals("/account/login"))
+            {
+                login(request, response);
+            }
+            // Logout
+            else if (servletPath.equals("/account/logout"))
+            {
+                logout(request, response);
+            }
         }
-        // Manage existing account
-        else if (servletPath.equals("/account/manage"))
+        catch (NamingException e)
         {
-            manageAccount(request, response);
+            throw new ServletException(e);
         }
-        // Login
-        else if (servletPath.equals("/account/login"))
-        {
-            login(request, response);
-        }
-        // Logout
-        else if (servletPath.equals("/account/logout"))
-        {
-            logout(request, response);
-        }
+
     }
 
     /**
