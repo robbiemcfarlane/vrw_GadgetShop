@@ -106,7 +106,7 @@ public class Account extends HttpServlet
             //Read nickname and password
             accountLoginForm = new AccountLoginForm();
 
-<<<<<<< HEAD
+            customer = accountLoginForm.loginCustomer(request.getParameterMap());
 
             //To authenticate cutomer
             InitialContext context = new InitialContext();
@@ -115,53 +115,24 @@ public class Account extends HttpServlet
 
             //If authentication succeeds than store customer nickname in the session
             if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
-=======
-            customer = accountLoginForm.loginCustomer(request.getParameterMap());
-            
-            if(accountLoginForm.isSuccess())
->>>>>>> origin/master
             {
-                //To authenticate cutomer
-                InitialContext context = new InitialContext();
-                CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
-                        "vrw_GadgetShop/CustomerSession/remote");
+                request.getSession().setAttribute("nickname", customer.getNickname());
+                response.sendRedirect("account/manage");
 
-                //If authentication succeeds than store customer nickname in the session
-                if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
-                {
-                    request.getSession().setAttribute("nickname", customer.getNickname());
-                    response.sendRedirect("account/manage");
-
-                }
-                //If authentication fails, than re-direct back to the login form with appropriate error message
-                else
-                {
-                    //ToDo: Review text
-                    accountLoginForm.setMessage("password","Nickname and password combination is incorrect");
-                }
             }
-<<<<<<< HEAD
             //If authentication fails, than re-direct back to the login form with appropriate error message
             else
             {
-                request.setAttribute("errorMessages", accountLoginForm.getMessages());
-                request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+                //ToDo: Review text
+                accountLoginForm.setMessage("password", "Nickname and password combination is incorrect");
             }
-
-
-
-
-
-=======
->>>>>>> origin/master
-
-            //ToDo: Validation errors: empty user/password fields, username doesn't exist, password is incorrect
         }
-        catch(GadgetShopValidationException e)
+        catch (GadgetShopValidationException e)
         {
-            
         }
-        catch (Exception e){ }
+        catch (Exception e)
+        {
+        }
 
         request.setAttribute("errorMessages", accountLoginForm.getMessages());
         request.getRequestDispatcher("/account/login.jsp").forward(request, response);
@@ -181,18 +152,18 @@ public class Account extends HttpServlet
             throws ServletException, IOException
     {
         String servletPath = request.getServletPath();
-        String url = null;    
+        String url = null;
 
         // Register
         if (servletPath.equals("/account/register"))
         {
             url = "/account/register.jsp";
         }
-        else if(servletPath.equals("/account/manage"))
+        else if (servletPath.equals("/account/manage"))
         {
             url = "/account/manage.jsp";
         }
-        request.getRequestDispatcher(url).forward(request,response);
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /** 
