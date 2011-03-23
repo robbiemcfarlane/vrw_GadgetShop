@@ -100,38 +100,49 @@ public class Account extends HttpServlet
     {
         Customer customer = null;
         AccountLoginForm accountLoginForm = null;
+        
+        String url = "/account/login.jsp";
 
         try
         {
             //Read nickname and password
             accountLoginForm = new AccountLoginForm();
 
-            customer = accountLoginForm.loginCustomer(request.getParameterMap());
+           
+            customer = accountLoginForm.loginCustomer(request.getParameterMap());            
+            
 
             //To authenticate cutomer
             InitialContext context = new InitialContext();
-            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote) context.lookup(
+            CustomerSessionRemote customerSessionRemote = (CustomerSessionRemote)context.lookup(
                     "vrw_GadgetShop/CustomerSession/remote");
 
             //If authentication succeeds than store customer nickname in the session
             if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
             {
                 request.getSession().setAttribute("nickname", customer.getNickname());
+
                 response.sendRedirect("account/manage");
+
+                url = "/account/manage";
+
 
             }
             //If authentication fails, than re-direct back to the login form with appropriate error message
             else
             {
                 //ToDo: Review text
-                accountLoginForm.setMessage("password", "Nickname and password combination is incorrect");
+
+                accountLoginForm.setMessage("password","Nickname and password combination is incorrect");
             }
+
         }
-        catch (GadgetShopValidationException e)
+        catch(GadgetShopValidationException e)
         {
         }
         catch (Exception e)
         {
+        
         }
 
         request.setAttribute("errorMessages", accountLoginForm.getMessages());
@@ -159,12 +170,16 @@ public class Account extends HttpServlet
         {
             url = "/account/register.jsp";
         }
-        else if (servletPath.equals("/account/manage"))
+        else if(servletPath.equals("/account/manage"))
         {
             url = "/account/manage.jsp";
         }
-        request.getRequestDispatcher(url).forward(request, response);
-    }
+        else if(servletPath.equals("/account/login"))
+        {
+            url = "/account/login.jsp";
+        }
+        request.getRequestDispatcher(url).forward(request,response);
+}
 
     /** 
      * Handles the HTTP <code>POST</code> method.
