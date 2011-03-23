@@ -13,6 +13,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
+        <!-- TODO: Change the base href so that it is dynamic (i.e., from server headers) -->
         <base href="http://localhost:8080/vrw/" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="content/style/reset.css" />
@@ -25,6 +26,13 @@
 
             <div id="header">
                 <h1>Global Gadgets</h1>
+
+                <c:if test="${not empty sessionScope.nickname}">
+                    Hi ${sessionScope.nickname}! | 
+                    <form action="account/logout" method="post">
+                        <input type="submit" name="logout" value="Log out" class="logout_btn" />
+                    </form>
+                </c:if>
             </div>
 
             <ul id="nav" class="clearfix">

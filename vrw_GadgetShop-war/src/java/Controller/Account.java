@@ -78,9 +78,10 @@ public class Account extends HttpServlet
         }
         catch (GadgetShopValidationException e)
         {
-            request.setAttribute("errorMessages", accountCreateForm.getMessages());
+            // No action needed; error messages are added below
         }
 
+        request.setAttribute("errorMessages", accountCreateForm.getMessages());
         request.getRequestDispatcher(url).forward(request, response);
     }
 
@@ -103,16 +104,15 @@ public class Account extends HttpServlet
                     "vrw_GadgetShop/CustomerSession/remote");
 
             //ToDo: add exception handling if customer is not logged in
-            customer = customerSessionRemote.find((String)request.getSession().getAttribute("nickname"));
+            customer = customerSessionRemote.find((String) request.getSession().getAttribute("nickname"));
             request.setAttribute("customer", customer);
 
             //RequestDispatcher requestDispatcher =
 
             request.getRequestDispatcher(url).forward(request, response);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-
         }
     }
 
@@ -155,10 +155,24 @@ public class Account extends HttpServlet
         }
         catch (GadgetShopValidationException e)
         {
-            request.setAttribute("errorMessages", accountLoginForm.getMessages());
+            // No action needed; error messages are added below
         }
 
+        request.setAttribute("errorMessages", accountLoginForm.getMessages());
         request.getRequestDispatcher(url).forward(request, response);
+    }
+
+    /**
+     * Log out a user.
+     *
+     * @param request
+     * @param response
+     */
+    private void logout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        request.getSession().removeAttribute("nickname");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -223,11 +237,17 @@ public class Account extends HttpServlet
             {
                 login(request, response);
             }
+            // Logout
+            else if (servletPath.equals("/account/logout"))
+            {
+                logout(request, response);
+            }
         }
         catch (NamingException e)
         {
             throw new ServletException(e);
         }
+
     }
 
     /**
