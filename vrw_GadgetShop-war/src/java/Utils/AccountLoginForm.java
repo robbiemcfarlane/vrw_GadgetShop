@@ -15,7 +15,7 @@ public class AccountLoginForm extends AccountForm
         super();
     }
 
-    public Customer loginCustomer(Map<String, String[]> fields) throws GadgetShopValidationException
+    public Customer loginCustomer(Map<String, String[]> fields) throws ValidationException
     {
         String nickname = fields.get(FIELD_NICKNAME)[0].trim();
         validateNickname(nickname);
@@ -26,7 +26,7 @@ public class AccountLoginForm extends AccountForm
         // Failed validation
         if (!isSuccess())
         {
-            throw new GadgetShopValidationException("Login fields invalid");
+            throw new ValidationException("Login fields invalid");
         }
         else
         {

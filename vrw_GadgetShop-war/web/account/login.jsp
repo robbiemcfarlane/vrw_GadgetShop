@@ -1,7 +1,3 @@
-<jsp:include page="/WEB-INF/includes/header.jsp">
-    <jsp:param name="page_title" value="Login" />
-</jsp:include>
-
     <h1>Login</h1>
 
     <form action="account/login" method="post">
@@ -21,6 +17,3 @@
 
         </fieldset>
     </form>
-
-
-<%@include file="../WEB-INF/includes/footer.jsp" %>

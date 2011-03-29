@@ -35,7 +35,7 @@ public class AccountCreateForm extends AccountForm
      * Register a customer
      * @param customer to registerCustomer
      */
-    public Customer registerCustomer(Map<String, String[]> fields) throws GadgetShopValidationException
+    public Customer registerCustomer(Map<String, String[]> fields) throws ValidationException
     {
         // If any parameters are null, user has edited form, so a NullPointerException
         // will be generated and caught by the application error page
@@ -67,7 +67,7 @@ public class AccountCreateForm extends AccountForm
         // Failed validation
         if (!isSuccess())
         {
-            throw new GadgetShopValidationException("Account fields invalid");
+            throw new ValidationException("Account fields invalid");
         }
         // Successful validation
         else

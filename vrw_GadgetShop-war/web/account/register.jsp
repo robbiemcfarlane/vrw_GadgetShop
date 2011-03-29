@@ -1,8 +1,3 @@
-<jsp:include page="/WEB-INF/includes/header.jsp">
-    <jsp:param name="page_title" value="Create Account" />
-</jsp:include>
-
-
     <h1>Create Account</h1>
 
     <form action="account/register" method="post">
@@ -72,5 +67,3 @@
         <div><input type="submit" name="create-account" title="Create Account" value="Create Account" /></div>
 
     </form>
-
-<%@include file="../WEB-INF/includes/footer.jsp" %>

@@ -25,6 +25,8 @@ public class Item implements Serializable
     private BigDecimal price;
     @Column(name="vip_price", nullable = false)
     private BigDecimal vipPrice;
+    @Column(name="stock_level", nullable = false)
+    private int stockLevel;
     @Column(name="in_shop_window", nullable = false)
     private boolean inShopWindow;
 
@@ -33,13 +35,14 @@ public class Item implements Serializable
 
     public Item() { }
 
-    public Item(String name, String longDesc, String shortDesc, BigDecimal price, BigDecimal vipPrice, boolean inShopWindow)
+    public Item(String name, String longDesc, String shortDesc, BigDecimal price, BigDecimal vipPrice, int stockLevel, boolean inShopWindow)
     {
         this.name = name;
         this.longDesc = longDesc;
         this.shortDesc = shortDesc;
         this.price = price;
         this.vipPrice = vipPrice;
+        this.stockLevel = stockLevel;
         this.inShopWindow = inShopWindow;
     }
 
@@ -137,6 +140,22 @@ public class Item implements Serializable
     public void setVipPrice(BigDecimal vipPrice)
     {
         this.vipPrice = vipPrice;
+    }
+
+    /**
+     * @return the stockLevel
+     */
+    public int getStockLevel()
+    {
+        return stockLevel;
+    }
+
+    /**
+     * @param stockLevel the stockLevel to set
+     */
+    public void setStockLevel(int stockLevel)
+    {
+        this.stockLevel = stockLevel;
     }
 
     /**

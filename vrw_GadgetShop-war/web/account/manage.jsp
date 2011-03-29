@@ -1,8 +1,3 @@
-<jsp:include page="/WEB-INF/includes/header.jsp">
-    <jsp:param name="page_title" value="Login" />
-</jsp:include>
-
-
     <h1>Account Management</h1>
 
     <form action="account/manage" method="post">
@@ -63,9 +58,6 @@
 
         </fieldset>
 
-        <div><input type="submit" name="manage-account" title="Update Account Details" value="Update Account Details" /></div>
+        <div><input type="submit" name="manage-account" title="Update Account Details" value="Update Account Details" disabled="disabled" /></div>
 
     </form>
-
-
-<%@include file="../WEB-INF/includes/footer.jsp" %>

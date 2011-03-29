@@ -51,8 +51,8 @@ public class ExampleController extends HttpServlet
                 EmployeeSessionRemote employeeSession = (EmployeeSessionRemote) context.lookup("vrw_GadgetShop/EmployeeSession/remote");
 
                 // Create 2 dummy items
-                Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), true);
-                Item item2 = new Item("32GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(25.00), new BigDecimal(21.00), false);
+                Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), 79, true);
+                Item item2 = new Item("32GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(25.00), new BigDecimal(21.00), 89, false);
 
                 // Add the 2 items to the database (persist)
                 itemSession.add(item1);
@@ -76,7 +76,7 @@ public class ExampleController extends HttpServlet
                 Collection<Item> itemList = itemSession.findAllInShopWindow();
 
                 request.setAttribute("itemList", itemList);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop_window.jsp");
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 dispatcher.forward(request, response);                
             }
             catch (NamingException e)

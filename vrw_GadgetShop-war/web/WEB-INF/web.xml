@@ -20,6 +20,10 @@
         <servlet-name>Admin</servlet-name>
         <servlet-class>Controller.Admin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShoppingBasket</servlet-name>
+        <servlet-class>Controller.ShoppingBasket</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExampleController</servlet-name>
         <url-pattern>/ExampleController</url-pattern>
@@ -29,18 +33,24 @@
         <url-pattern>/ItemController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Account</servlet-name>
-        <url-pattern>/account/register</url-pattern>
-        <url-pattern>/account/login</url-pattern>
-        <url-pattern>/account/manage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Index</servlet-name>
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/admin/login</url-pattern>
+        <url-pattern>/admin/items</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Account</servlet-name>
+        <url-pattern>/account/login</url-pattern>
+        <url-pattern>/account/manage</url-pattern>
+        <url-pattern>/account/register</url-pattern>
+        <url-pattern>/account/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShoppingBasket</servlet-name>
+        <url-pattern>/basket/view</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -50,4 +60,15 @@
     <welcome-file-list>
         <welcome-file>Index</welcome-file>
     </welcome-file-list>
+    <jsp-config>
+        <jsp-property-group>
+            <display-name>Header and footer</display-name>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/account/*</url-pattern>
+            <url-pattern>/item/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
+            <include-prelude>/WEB-INF/includes/header.jsp</include-prelude>
+            <include-coda>/WEB-INF/includes/footer.jsp</include-coda>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
