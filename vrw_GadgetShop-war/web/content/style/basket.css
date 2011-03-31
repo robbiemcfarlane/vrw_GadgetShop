@@ -1,0 +1,20 @@
+/* 
+    Document   : basket
+    Created on : 30-Mar-2011, 01:38:13
+    Author     : Robbie
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+table#basket {
+    width: 100%;
+}
+
+table#basket th {
+    font-weight: bold;
+}

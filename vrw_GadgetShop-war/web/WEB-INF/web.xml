@@ -51,6 +51,8 @@
     <servlet-mapping>
         <servlet-name>ShoppingBasket</servlet-name>
         <url-pattern>/basket/view</url-pattern>
+        <url-pattern>/basket/add</url-pattern>
+        <url-pattern>/basket/checkout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -63,10 +65,11 @@
     <jsp-config>
         <jsp-property-group>
             <display-name>Header and footer</display-name>
+            <url-pattern>/basket/*</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/account/*</url-pattern>
-            <url-pattern>/item/*</url-pattern>
             <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/item/*</url-pattern>
             <include-prelude>/WEB-INF/includes/header.jsp</include-prelude>
             <include-coda>/WEB-INF/includes/footer.jsp</include-coda>
         </jsp-property-group>

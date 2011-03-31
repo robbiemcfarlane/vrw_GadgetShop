@@ -16,9 +16,11 @@ import vrw.ejb.entity.Item;
 public interface ItemSessionRemote {
 
     public void add(Item item);
+    public void update(Item item);
     public Item find(int id);
     public Collection<Item> findAll();
+    public Collection<Item> findAllOrderBy(String field, String direction);
     public Collection<Item> findAllInShopWindow();
-    public Collection<Item> search(String searchString);           
+    public Collection<Item> search(String searchString);
     
 }

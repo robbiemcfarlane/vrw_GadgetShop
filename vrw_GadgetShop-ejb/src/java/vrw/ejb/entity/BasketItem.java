@@ -78,4 +78,9 @@ public class BasketItem implements Serializable
     {
         return item.getPrice().multiply(new BigDecimal(quantity));
     }
+
+    public int remainingStock()
+    {
+        return item.getStockLevel() - quantity;
+    }
 }

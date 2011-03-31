@@ -1,6 +1,6 @@
 <h2>Gadgets</h2>
 
-<p>List of gadgets</p>
+<p>Currently showing ${fn:length(itemList)} gadgets</p>
 
 <!-- List of items -->
 <%@include file="/WEB-INF/includes/item_list.jsp" %>

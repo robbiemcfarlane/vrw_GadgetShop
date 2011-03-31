@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -19,6 +20,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="content/style/reset.css" />
         <link rel="stylesheet" type="text/css" href="content/style/style.css" />
+        <link rel="stylesheet" type="text/css" href="content/style/basket.css" />
         <title>Global Gadgets</title>
     </head>
     <body>
@@ -41,6 +43,13 @@
                             <li><a href="account/register">Register</a></li>
                         </c:otherwise>
                     </c:choose>
+                    <li>
+                        <c:if test="${not empty shoppingBasket}">
+                            Total: <fmt:formatNumber value="${shoppingBasket.total}" type="currency" />
+                            (${shoppingBasket.numItems} items) |
+                        </c:if>
+                        <a href="basket/view">View Basket</a>
+                    </li>
                 </ul>
                 
             </div>
@@ -52,3 +61,7 @@
             </ul>
 
             <div id="content">
+
+                <c:if test="${not empty message}">
+                    <p class="feedback_message">${message}</p>
+                </c:if>

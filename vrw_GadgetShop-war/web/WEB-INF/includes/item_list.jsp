@@ -6,8 +6,9 @@
             <li>
                 <h3><a href="ItemController?item=${item.id}">${item.name}</a></h3>
                 <p>${item.miniDesc}</p>
-                <form action="Basket" method="post">
-                    <input type="hidden" name="item_id" value="${item.id}" />
+                <p>${item.stockLevel} in stock</p>
+                <form action="basket/add" method="post">
+                    <input type="hidden" name="item-id" value="${item.id}" />
                     <input type="submit" name="submit" value="Add to Basket" />
                 </form>
             </li>

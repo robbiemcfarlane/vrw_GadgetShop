@@ -29,6 +29,11 @@ public class ItemSession implements ItemSessionRemote, java.io.Serializable {
         em.persist(item);
     }
 
+    public void update(Item item)
+    {
+        em.merge(item);
+    }
+    
     public Item find(int id)
     {
         return em.find(Item.class, id);
@@ -37,6 +42,12 @@ public class ItemSession implements ItemSessionRemote, java.io.Serializable {
     public Collection<Item> findAll()
     {
         return em.createQuery("SELECT i FROM Item i").getResultList();
+    }
+
+    public Collection<Item> findAllOrderBy(String field, String direction)
+    {
+        String query = "SELECT i FROM Item i ORDER BY i."+field+" "+direction;
+        return em.createQuery(query).getResultList();
     }
 
     public Collection<Item> findAllInShopWindow()

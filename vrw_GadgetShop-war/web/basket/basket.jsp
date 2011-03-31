@@ -1,13 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-
-
+<h2>Shopping Basket</h2>
 
 <c:if test="${not empty shoppingBasket.items}">
 
-    <table>
+    <table id="basket">
 
         <tr>
             <th>Item</th>
@@ -17,7 +15,7 @@
 
         <c:forEach var="basketItem" items="${basketItems}">
             <tr>
-                <td>${basketItem.item.name}</td>
+                <td><a href="ItemController/view?item=${basketItem.item.id}">${basketItem.item.name}</a></td>
                 <td>${basketItem.quantity}</td>
                 <td><fmt:formatNumber value="${basketItem.price}" type="currency" /></td>
             </tr>
@@ -30,5 +28,8 @@
         </tr>
 
     </table>
+
+    <a href="...">Continue Shopping</a>
+    <a href="basket/checkout">Proceed to Checkout</a>
 
 </c:if>

@@ -43,18 +43,28 @@ public class ShoppingBasketSession implements ShoppingBasketSessionRemote, java.
     public void addItem(Item item, int quantity)
             throws StockException
     {
-        if (item.getStockLevel() < quantity)
+        int itemId = item.getId();
+
+        // If the item is out of stock
+        if (item.getStockLevel() == 0)
         {
             throw new StockException("Item out of stock");
         }
 
-        int itemId = item.getId();
-
         // If item is already in basket
         if (items.containsKey(itemId))
         {
+            // If the quantity requested is greater than the quantity available (considers
+            // item quantities already in this user's shopping basket)
+            if (quantity > items.get(itemId).remainingStock())
+            {
+                throw new StockException("Requested quantity unavailable");
+            }
             // Increment quantity
-            items.get(itemId).incrementQuantity(quantity);
+            else
+            {
+                items.get(itemId).incrementQuantity(quantity);
+            }
         }
         // If item is not in basket
         else

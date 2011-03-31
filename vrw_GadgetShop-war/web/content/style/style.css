@@ -16,12 +16,22 @@ body
 
 h1,h2,h3,h4,h5,h6 { font-weight: bold }
 h1{font-size: 2em;}
-h2{font-size: 1.6em;}
+h2{
+    font-size: 1.6em;
+    color: #70BFFF
+}
 h3{font-size: 1.4em;}
 
 p
 {
     margin: 10px 0px;
+}
+
+p.feedback_message {
+    color: white;
+    background-color: green;
+    text-align: center;
+    padding: 5px;
 }
 
 
@@ -91,6 +101,7 @@ form .error
 #item_list li {
     display: block;
     float: left;
-    width: 200px;
-    height: 200px;
+    width: 186px;
+    height: 186px;
+    padding: 5px;
 }

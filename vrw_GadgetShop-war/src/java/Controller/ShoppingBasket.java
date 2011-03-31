@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import vrw.ejb.entity.Item;
+import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.session.ShoppingBasketSessionRemote;
 import vrw.ejb.session.StockException;
 
@@ -39,10 +40,20 @@ public class ShoppingBasket extends HttpServlet
 
         try
         {
-            // Create a new account
+            // View the basket
             if (servletPath.equals("/basket/view"))
             {
-                viewBasket(request, response);
+                view(request, response);
+            }
+            // Add an item to the basket
+            else if (servletPath.equals("/basket/add"))
+            {
+                addItem(request, response);
+            }
+            // Checkout
+            else if (servletPath.equals("/basket/checkout"))
+            {
+                checkout(request, response);
             }
         }
         catch (NamingException e)
@@ -51,8 +62,8 @@ public class ShoppingBasket extends HttpServlet
         }
     }
 
-    protected void viewBasket(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException
+    protected ShoppingBasketSessionRemote getBasket(HttpServletRequest request)
+            throws NamingException
     {
         HttpSession session = request.getSession();
         ShoppingBasketSessionRemote shoppingBasketSession = (ShoppingBasketSessionRemote) session.getAttribute("shoppingBasket");
@@ -62,20 +73,47 @@ public class ShoppingBasket extends HttpServlet
             shoppingBasketSession = (ShoppingBasketSessionRemote) context.lookup("vrw_GadgetShop/ShoppingBasketSession/remote");
             session.setAttribute("shoppingBasket", shoppingBasketSession);
         }
+        
+        return shoppingBasketSession;
+    }
 
-        Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), 99, true);
-        item1.setId(1);
+    protected void view(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NamingException
+    {
+        request.setAttribute("basketItems", getBasket(request).getItems().values());
+        request.getRequestDispatcher("/basket/basket.jsp").forward(request, response);
+    }
 
+    protected void addItem(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NamingException
+    {
         try
         {
-            shoppingBasketSession.addItem(item1, 1);
+            int itemId = Integer.parseInt(request.getParameter("item-id"));
+
+            InitialContext context = new InitialContext();
+            ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
+
+            // Get the item
+            Item item = itemSession.find(itemId);
+
+            // Add the item to the basket
+            getBasket(request).addItem(item, 1);
         }
         catch (StockException se)
         {
             se.printStackTrace();
         }
-        request.setAttribute("basketItems", shoppingBasketSession.getItems().values());
-        request.getRequestDispatcher("/basket/basket.jsp").forward(request, response);
+
+        response.sendRedirect("view");
+        return;
+    }
+
+    protected void checkout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NamingException
+    {
+        request.setAttribute("basketItems", getBasket(request).getItems().values());
+        request.getRequestDispatcher("/basket/checkout.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

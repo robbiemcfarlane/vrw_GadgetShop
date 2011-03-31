@@ -53,27 +53,30 @@ public class Admin extends HttpServlet
     protected void items(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException
     {
-        try
+        InitialContext context = new InitialContext();
+        ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
+
+        Collection<Item> itemList = itemSession.findAllOrderBy("name", "ASC");
+
+        // Postback
+        if(request.getMethod().equalsIgnoreCase("post"))
         {
-
-            String itemId = request.getParameter("item");
-
-            InitialContext context = new InitialContext();
-
-            ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
-
-            Collection<Item> itemList = itemSession.findAll();
-
-            request.setAttribute("itemList", itemList);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/items.jsp");
-            dispatcher.forward(request, response);
+            for(Item item : itemList)
+            {
+                item.setInShopWindow(Boolean.parseBoolean(request.getParameter("in-shop-window_"+item.getId())));
+                itemSession.update(item);
+            }
+            request.setAttribute("message","Your changes have been saved");
         }
-        finally
-        {
-        }
+
+        request.setAttribute("itemList", itemList);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/items.jsp");
+        dispatcher.forward(request, response);
+
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
