@@ -141,7 +141,7 @@ public class Account extends HttpServlet
         // application error page
         // TODO: Changed our minds; we want this to redirect to login() if the
         // user isn't logged in.
-        customer = customerSessionRemote.find((String) request.getSession().getAttribute("nickname"));
+        customer = customerSessionRemote.find(((Customer) request.getSession().getAttribute("customer")).getNickname());
         request.setAttribute("customer", customer);
 
         request.getRequestDispatcher(url).forward(request, response);
@@ -176,7 +176,8 @@ public class Account extends HttpServlet
                 //If authentication succeeds than store customer nickname in the session
                 if (customerSessionRemote.authenticate(customer.getNickname(), customer.getPassword()))
                 {
-                    request.getSession().setAttribute("nickname", customer.getNickname());
+                    //request.getSession().setAttribute("nickname", customer.getNickname());
+                    request.getSession().setAttribute("customer", customerSessionRemote.find(customer.getNickname()));
                     response.sendRedirect("manage");
                     return;
                 }

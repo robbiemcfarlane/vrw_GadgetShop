@@ -4,8 +4,8 @@
  */
 package vrw.ejb.session;
 
+import vrw.ejb.entity.StockException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import javax.ejb.Remove;
@@ -36,5 +36,4 @@ public interface ShoppingBasketSessionRemote
 
     @Remove
     public void terminate();
-
 }

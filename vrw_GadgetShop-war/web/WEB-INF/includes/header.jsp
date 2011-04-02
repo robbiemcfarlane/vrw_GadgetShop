@@ -44,11 +44,16 @@
                         </c:otherwise>
                     </c:choose>
                     <li>
-                        <c:if test="${not empty shoppingBasket}">
-                            Total: <fmt:formatNumber value="${shoppingBasket.total}" type="currency" />
-                            (${shoppingBasket.numItems} items) |
-                        </c:if>
-                        <a href="basket/view">View Basket</a>
+                        <c:choose>
+                            <c:when test="${not empty shoppingBasket}">
+                                Total: <fmt:formatNumber value="${shoppingBasket.total}" type="currency" />
+                                (${shoppingBasket.numItems} items) |
+                                <a href="basket/view">View Basket</a>
+                            </c:when>
+                            <c:otherwise>
+                                Your basket is empty
+                            </c:otherwise>
+                        </c:choose>
                     </li>
                 </ul>
                 
@@ -58,6 +63,7 @@
                 <li><a href="ExampleController">Load Test Data</a></li>
                 <li><a href="./">Home</a></li>
                 <li><a href="ItemController">Gadgets</a></li>
+                <li><a href="Item/combo">Combo Deals</a></li>
             </ul>
 
             <div id="content">

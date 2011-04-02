@@ -68,4 +68,5 @@ public class CustomerSession implements CustomerSessionRemote, java.io.Serializa
             return false;
         }
     }
+
 }

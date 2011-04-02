@@ -25,4 +25,5 @@ public interface CustomerSessionRemote
     public void remove(Customer c);
 
     public boolean authenticate(String nickname, String password);
+    
 }

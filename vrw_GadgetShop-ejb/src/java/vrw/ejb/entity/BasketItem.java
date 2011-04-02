@@ -13,6 +13,9 @@ import java.math.BigDecimal;
  */
 public class BasketItem implements Serializable
 {
+
+    private static final long serialVersionUID = 1;
+    
     private Item item;
     private int quantity;
 
@@ -77,10 +80,5 @@ public class BasketItem implements Serializable
     public BigDecimal getPrice()
     {
         return item.getPrice().multiply(new BigDecimal(quantity));
-    }
-
-    public int remainingStock()
-    {
-        return item.getStockLevel() - quantity;
     }
 }

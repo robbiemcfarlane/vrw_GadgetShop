@@ -2,44 +2,31 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package vrw.ejb.session;
+package vrw.ejb.entity;
 
-import javax.ejb.*;
-import java.util.HashMap;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
-import javax.annotation.PostConstruct;
-import vrw.ejb.entity.*;
-import javax.persistence.*;
+import java.util.HashMap;
 
 /**
  *
  * @author Robbie
  */
-@Stateful
-@Remote(ShoppingBasketSessionRemote.class)
-public class ShoppingBasketSession implements ShoppingBasketSessionRemote, java.io.Serializable
+public class Basket implements java.io.Serializable
 {
 
     private HashMap<Integer, BasketItem> items;
+
     private static final long serialVersionUID = 1;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @PostConstruct
-    public void initialize()
+    public Basket()
     {
         items = new HashMap<Integer, BasketItem>();
     }
-    
-    @Remove
-    public void terminate()
-    {
-        // TODO: Do we need to do anything here?
-    }
 
+    /**
+     * @return the items
+     */
     public HashMap<Integer, BasketItem> getItems()
     {
         return items;
@@ -136,20 +123,4 @@ public class ShoppingBasketSession implements ShoppingBasketSessionRemote, java.
 
         return numItems;
     }
-
-//    public static void main(String[] args)
-//    {
-//        ShoppingBasketSession s = new ShoppingBasketSession();
-//        Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), 99, true);
-//        try
-//        {
-//            s.addItem(item1, 1);
-//        }
-//        catch (StockException e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println(s.getTotal());
-//    }
 }

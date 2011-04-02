@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import vrw.ejb.entity.Item;
+import vrw.ejb.entity.Order;
 import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.session.ShoppingBasketSessionRemote;
-import vrw.ejb.session.StockException;
+import vrw.ejb.entity.StockException;
+import vrw.ejb.session.OrderSessionRemote;
 
 /**
  *
@@ -62,7 +64,7 @@ public class ShoppingBasket extends HttpServlet
         }
     }
 
-    protected ShoppingBasketSessionRemote getBasket(HttpServletRequest request)
+    protected ShoppingBasketSessionRemote getBasketSession(HttpServletRequest request)
             throws NamingException
     {
         HttpSession session = request.getSession();
@@ -73,14 +75,14 @@ public class ShoppingBasket extends HttpServlet
             shoppingBasketSession = (ShoppingBasketSessionRemote) context.lookup("vrw_GadgetShop/ShoppingBasketSession/remote");
             session.setAttribute("shoppingBasket", shoppingBasketSession);
         }
-        
+
         return shoppingBasketSession;
     }
 
     protected void view(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException
     {
-        request.setAttribute("basketItems", getBasket(request).getItems().values());
+        request.setAttribute("basketItems", getBasketSession(request).getItems().values());
         request.getRequestDispatcher("/basket/basket.jsp").forward(request, response);
     }
 
@@ -98,7 +100,7 @@ public class ShoppingBasket extends HttpServlet
             Item item = itemSession.find(itemId);
 
             // Add the item to the basket
-            getBasket(request).addItem(item, 1);
+            getBasketSession(request).addItem(item, 1);
         }
         catch (StockException se)
         {
@@ -112,8 +114,20 @@ public class ShoppingBasket extends HttpServlet
     protected void checkout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException
     {
-        request.setAttribute("basketItems", getBasket(request).getItems().values());
-        request.getRequestDispatcher("/basket/checkout.jsp").forward(request, response);
+        if (request.getMethod().equalsIgnoreCase("post"))
+        {
+            // Testing the checkout process
+            InitialContext context = new InitialContext();
+            OrderSessionRemote orderSession = (OrderSessionRemote) context.lookup("vrw_GadgetShop/OrderSession/remote");
+            Order order = orderSession.checkoutBasket(getBasketSession(request));
+            request.setAttribute("order", order);
+            request.getRequestDispatcher("/basket/order_confirmation.jsp").forward(request,response);
+        }
+        else
+        {
+            request.setAttribute("basketItems", getBasketSession(request).getItems().values());
+            request.getRequestDispatcher("/basket/checkout.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

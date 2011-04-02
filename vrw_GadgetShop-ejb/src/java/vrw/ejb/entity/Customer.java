@@ -6,6 +6,7 @@
 package vrw.ejb.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 
 /**
@@ -32,6 +33,10 @@ public class Customer extends Person implements Serializable {
     private String email;
     @Column(name="is_active", nullable=false)
     private boolean active;
+    
+    @Column(name="vip_expiry_date", nullable=true)
+    @Temporal(TemporalType.DATE)
+    private Date vipExpiryDate;
 
     /**
      * Empty constructor
@@ -206,4 +211,62 @@ public class Customer extends Person implements Serializable {
         this.active = active;
     }
 
+    /**
+     * @return the vipExpiryDate
+     */
+    public Date getVipExpiryDate()
+    {
+        return vipExpiryDate;
+    }
+
+    /**
+     * @param vipExpiryDate the vipExpiryDate to set
+     */
+    public void setVipExpiryDate(Date vipExpiryDate)
+    {
+        this.vipExpiryDate = vipExpiryDate;
+    }
+
+    public boolean isVIP()
+    {
+        // If a VIP expiry date has been set (i.e., it is not null) AND
+        // the expiry date is greater than the current date, then the customer is a VIP
+        if(vipExpiryDate != null && vipExpiryDate.compareTo(new Date()) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+    /*public boolean isVIP()
+    {
+        InitialContext context = new InitialContext();
+
+        OrderSessionRemote orderSession = (OrderSessionRemote) context.lookup("vrw_GadgetShop/OrderSession/remote");
+
+        ArrayList<Order> pastYearOrders = orderSession.findPastYearOrdersForCustomer(this);
+
+        BigDecimal total = new BigDecimal(0);
+        for(Order order : pastYearOrders)
+        {
+            total = total.add(order.getTotal());
+        }
+
+        Order lastOrder = pastYearOrders.get(pastYearOrders.size()-1);
+
+        if(total.compareTo(new BigDecimal(200)) >= 0 && (lastOrder.getDate() - NOW() < 6 MONTHS))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }*/
+    
 }
