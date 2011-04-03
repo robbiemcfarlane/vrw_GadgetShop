@@ -7,11 +7,15 @@ package vrw.ejb.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 /**
@@ -19,7 +23,7 @@ import javax.persistence.Version;
  * @author viktor
  */
 
-@Entity()
+@Entity(name="offer")
 public class Offer implements Serializable{
 
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -34,6 +38,9 @@ public class Offer implements Serializable{
 
     @Column(name="price", nullable=false)
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "offer", cascade=CascadeType.ALL)
+    private Collection<OfferItem> items;
 
     @Version
     private java.sql.Timestamp version;
@@ -118,6 +125,22 @@ public class Offer implements Serializable{
     public void setPrice(BigDecimal price)
     {
         this.price = price;
+    }
+
+    /**
+     * @return the items
+     */
+    public Collection<OfferItem> getItems()
+    {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(Collection<OfferItem> items)
+    {
+        this.items = items;
     }
 
     

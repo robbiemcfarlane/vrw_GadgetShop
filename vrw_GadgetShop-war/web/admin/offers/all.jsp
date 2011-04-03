@@ -8,7 +8,7 @@
             <c:forEach var="offer" items="${offerList}">
                 <li>
 
-                    <h3>Offer:</h3><a href="/admin/offer/?offer=">${offer.name}</a>
+                    <a href="/admin/offer/?offer=">${offer.name}</a>
                     </br>
                     <p>
                         ${offer.description}
