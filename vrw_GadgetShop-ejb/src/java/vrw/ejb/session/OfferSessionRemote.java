@@ -5,6 +5,7 @@
 
 package vrw.ejb.session;
 
+import java.util.Collection;
 import vrw.ejb.entity.Offer;
 
 /**
@@ -15,6 +16,8 @@ import vrw.ejb.entity.Offer;
 public interface OfferSessionRemote {
 
     public void add(Offer o);
-    public void update(Offer o);   
+    public void update(Offer o);
+    public Collection<Offer> findAll();
+    public Offer find(int id);
 
 }

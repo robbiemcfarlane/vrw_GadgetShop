@@ -44,6 +44,19 @@ public class Offer implements Serializable{
     }
 
     /**
+     * Default constructor
+     * @param name name to set
+     * @param description description to set
+     * @param price price to set
+     */
+    public Offer(String name, String description, BigDecimal price)
+    {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    /**
      * @return the id
      */
     public int getId()

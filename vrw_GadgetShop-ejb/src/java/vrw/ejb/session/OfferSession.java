@@ -6,6 +6,7 @@
 package vrw.ejb.session;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,6 +31,25 @@ public class OfferSession{
     public void update(Offer o)
     {
         em.persist(o);
+    }
+
+    /**
+     * Finds all offers
+     * @return all offers in the system
+     */
+    public Collection findAll()
+    {
+        return em.createQuery("SELECT o FROM Offer o").getResultList();
+    }
+
+    /**
+     * Finds offer by its id
+     * @param id of an offer to find
+     * @return
+     */
+    public Offer find(int id)
+    {
+        return em.find(Offer.class, id);
     }
 
 
