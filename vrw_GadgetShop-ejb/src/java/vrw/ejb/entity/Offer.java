@@ -12,9 +12,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
@@ -23,7 +26,7 @@ import javax.persistence.Version;
  * @author viktor
  */
 
-@Entity(name="offer")
+@Entity()
 public class Offer implements Serializable{
 
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -39,8 +42,10 @@ public class Offer implements Serializable{
     @Column(name="price", nullable=false)
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "offer", cascade=CascadeType.ALL)
-    private Collection<OfferItem> items;
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinTable(name="OfferItem",joinColumns=@JoinColumn(name="offer_id"),
+        inverseJoinColumns=@JoinColumn(name="item_id"))
+    private Collection<Item> items;
 
     @Version
     private java.sql.Timestamp version;
@@ -130,7 +135,7 @@ public class Offer implements Serializable{
     /**
      * @return the items
      */
-    public Collection<OfferItem> getItems()
+    public Collection<Item> getItems()
     {
         return items;
     }
@@ -138,7 +143,7 @@ public class Offer implements Serializable{
     /**
      * @param items the items to set
      */
-    public void setItems(Collection<OfferItem> items)
+    public void setItems(Collection<Item> items)
     {
         this.items = items;
     }

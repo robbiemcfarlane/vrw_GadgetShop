@@ -5,15 +5,36 @@
 
         <ul>
 
-            <c:forEach var="offer" items="${offerList}">
+            <c:forEach var="offer"  items="${offerList}">
                 <li>
 
                     <a href="/admin/offer/?offer=">${offer.name}</a>
-                    </br>
+                    
                     <p>
                         ${offer.description}
                     </p>
-                  
+
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>In Shop Window</th>
+                        </tr>
+
+                    <c:forEach var="offerItem" items="${offer.items}">
+
+            
+
+                        <tr>
+                            <td>${offerItem.name}</td>
+                            <td>${offerItem.price}</td>
+                            <td>${offerItem.inShopWindow}</td>
+                        </tr>
+                        
+                    </c:forEach>
+                    
+                    </table>
+
                     Offer price:<fmt:formatNumber value="${offer.price}" type="currency" />
                     
 

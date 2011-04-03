@@ -11,6 +11,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import vrw.ejb.entity.Item;
 import vrw.ejb.entity.Offer;
 
 /**
@@ -51,6 +52,5 @@ public class OfferSession{
     {
         return em.find(Offer.class, id);
     }
-
 
 }
