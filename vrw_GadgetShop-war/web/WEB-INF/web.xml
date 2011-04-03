@@ -51,7 +51,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
-        <url-pattern>/admin/offers</url-pattern>
+        <url-pattern>/admin/offers/all</url-pattern>
         <url-pattern>/admin/login</url-pattern>
         <url-pattern>/admin/items</url-pattern>
     </servlet-mapping>

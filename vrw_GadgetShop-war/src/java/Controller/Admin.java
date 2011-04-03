@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import vrw.ejb.entity.Item;
+import vrw.ejb.entity.Offer;
 import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.session.OfferSessionRemote;
 
@@ -43,7 +44,12 @@ public class Admin extends HttpServlet
             if (servletPath.equals("/admin/items"))
             {
                 items(request, response);
+            }else if(servletPath.equals("/admin/offers/all"))
+            {
+                offers(request, response);
             }
+
+
         }
         catch (NamingException e)
         {
@@ -88,7 +94,19 @@ public class Admin extends HttpServlet
             throws ServletException, IOException, NamingException
     {
         InitialContext context = new InitialContext();
-        OfferSessionRemote offerSession = (OfferSessionRemote) context.lookup("vrw_GadgetShop/OfferSession/remote");
+        OfferSessionRemote offerSession = (OfferSessionRemote) context.lookup("vrw_GadgetShop/OfferSession/remote");        
+
+        if(request.getMethod().equalsIgnoreCase("post"))
+        {
+            //ToDo: implement
+        }else{
+            Collection<Offer> offerList = offerSession.findAll();
+            request.setAttribute("offerList", offerList);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/offers/all.jsp");
+        dispatcher.forward(request, response);
+
 
         // Check for GET/POST
     }

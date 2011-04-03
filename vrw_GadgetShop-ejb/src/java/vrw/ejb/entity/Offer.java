@@ -19,7 +19,7 @@ import javax.persistence.Version;
  * @author viktor
  */
 
-@Entity(name="offer")
+@Entity()
 public class Offer implements Serializable{
 
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
