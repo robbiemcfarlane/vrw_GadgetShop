@@ -6,6 +6,7 @@
 package vrw.ejb.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,9 @@ public class Offer implements Serializable{
 
     @Column(name="description", length=500, nullable=false)
     private String description;
+
+    @Column(name="price", nullable=false)
+    private BigDecimal price;
 
     @Version
     private java.sql.Timestamp version;
@@ -85,6 +89,22 @@ public class Offer implements Serializable{
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    /**
+     * @return the price
+     */
+    public BigDecimal getPrice()
+    {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(BigDecimal price)
+    {
+        this.price = price;
     }
 
     
