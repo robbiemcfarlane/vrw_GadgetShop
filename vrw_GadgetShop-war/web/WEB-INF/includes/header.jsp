@@ -64,6 +64,7 @@
                 <li><a href="./">Home</a></li>
                 <li><a href="ItemController">Gadgets</a></li>
                 <li><a href="Item/combo">Combo Deals</a></li>
+                <li><a href="admin/offer/all">Manage Offers</a></li>
             </ul>
 
             <div id="content">

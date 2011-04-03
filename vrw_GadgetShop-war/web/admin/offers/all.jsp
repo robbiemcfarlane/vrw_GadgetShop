@@ -5,8 +5,6 @@
 
         <ul>
 
-
-
             <c:forEach var="offer" items="${offerList}">
                 <li>
 
