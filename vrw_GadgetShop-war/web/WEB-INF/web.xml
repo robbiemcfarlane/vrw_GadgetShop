@@ -37,11 +37,6 @@
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Admin</servlet-name>
-        <url-pattern>/admin/login</url-pattern>
-        <url-pattern>/admin/items</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Account</servlet-name>
         <url-pattern>/account/login</url-pattern>
         <url-pattern>/account/manage</url-pattern>
@@ -53,6 +48,12 @@
         <url-pattern>/basket/view</url-pattern>
         <url-pattern>/basket/add</url-pattern>
         <url-pattern>/basket/checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/admin/offers/all</url-pattern>
+        <url-pattern>/admin/login</url-pattern>
+        <url-pattern>/admin/items</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

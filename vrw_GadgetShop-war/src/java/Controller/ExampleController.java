@@ -4,6 +4,8 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,11 @@ import vrw.ejb.session.ItemSessionRemote;
 import vrw.ejb.entity.Customer;
 import vrw.ejb.session.CustomerSessionRemote;
 import java.util.Collection;
+import java.util.List;
 import vrw.ejb.entity.Employee;
+import vrw.ejb.entity.Offer;
 import vrw.ejb.session.EmployeeSessionRemote;
+import vrw.ejb.session.OfferSessionRemote;
 
 /**
  *
@@ -49,6 +54,7 @@ public class ExampleController extends HttpServlet
                 ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
                 CustomerSessionRemote customerSession = (CustomerSessionRemote) context.lookup("vrw_GadgetShop/CustomerSession/remote");
                 EmployeeSessionRemote employeeSession = (EmployeeSessionRemote) context.lookup("vrw_GadgetShop/EmployeeSession/remote");
+                OfferSessionRemote offerSession = (OfferSessionRemote) context.lookup("vrw_GadgetShop/OfferSession/remote");
 
                 // Create 2 dummy items
                 Item item1 = new Item("16GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(15.00), new BigDecimal(11.00), 3, true);
@@ -64,13 +70,30 @@ public class ExampleController extends HttpServlet
                 Employee viktor = new Employee("viktor","Viktor","Peacock","admin");
                 Employee robbie = new Employee("robbie","Robbie","McFarlane","admin");
                 Employee will = new Employee("will","Will","Atterson","admin");
+
+                // Add examples of an offer
+                Offer offer1 = new Offer("Buy One Get One Free", "Buy One Get One Free on 16 GB Memory Stick", new BigDecimal(15.00));
+                Offer offer2 = new Offer("Buy One Get One Half-Price", "Buy One Get One Half Price on 32 GB Memory Stick", new BigDecimal(37.50));
+                if(offer1.getItems()==null)
+                {
+                    offer1.setItems(new ArrayList<Item>());
+                }
+                offer1.getItems().add(item2);
+                offer1.getItems().add(item1);
+
                 
+
+                //offer1.getItems().add((item1));
+
                 // Add the customer to the database (persist)
                 customerSession.register(cust1);
 
                 employeeSession.register(viktor);
                 employeeSession.register(will);
                 employeeSession.register(robbie);
+
+                offerSession.add(offer1);
+                offerSession.add(offer2);
 
                 // Retrieve the items that are in the shop window
                 Collection<Item> itemList = itemSession.findAllInShopWindow();
@@ -84,6 +107,10 @@ public class ExampleController extends HttpServlet
                 throw new ServletException("JNDI problem", e);
             }
 
+        }
+        catch(Exception e)
+        {
+            throw new ServletException(e.getMessage());
         }
         finally
         {
