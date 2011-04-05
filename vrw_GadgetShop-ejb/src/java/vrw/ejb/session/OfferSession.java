@@ -5,7 +5,6 @@
 
 package vrw.ejb.session;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -20,18 +19,19 @@ import vrw.ejb.entity.Offer;
  */
 @Stateless
 @Remote(OfferSessionRemote.class)
-public class OfferSession{
+public class OfferSession implements OfferSessionRemote, java.io.Serializable {
 
     @PersistenceContext
     private EntityManager em;
 
-    public void add(Offer o){
+    public Offer add(Offer o){
         em.persist(o);
+        return o;
     }
 
     public void update(Offer o)
     {
-        em.persist(o);
+        em.merge(o);
     }
 
     /**

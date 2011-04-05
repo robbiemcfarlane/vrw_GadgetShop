@@ -28,9 +28,10 @@ public class EmployeeSession implements EmployeeSessionRemote, Serializable {
      * Register employee
      * @param e employee to register
      */
-    public void register(Employee e)
+    public Employee register(Employee e)
     {
         em.persist(e);
+        return e;
     }
 
     /**

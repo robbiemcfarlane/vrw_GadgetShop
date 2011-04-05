@@ -29,9 +29,10 @@ public class OrderSession implements OrderSessionRemote
     @PersistenceContext
     private EntityManager em;
 
-    public void add(Order o)
+    public Order add(Order o)
     {
         em.persist(o);
+        return o;
     }
 
     public Order checkout(ShoppingBasketSessionRemote shoppingBasket)

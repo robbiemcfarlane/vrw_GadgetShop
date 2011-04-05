@@ -7,7 +7,7 @@ package vrw.ejb.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,10 +26,10 @@ import javax.persistence.Version;
  * @author viktor
  */
 
-@Entity()
+@Entity
 public class Offer implements Serializable{
 
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue
     @Id
     private int id;
 
@@ -42,17 +42,15 @@ public class Offer implements Serializable{
     @Column(name="price", nullable=false)
     private BigDecimal price;
 
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    @JoinTable(name="OfferItem",joinColumns=@JoinColumn(name="offer_id"),
-        inverseJoinColumns=@JoinColumn(name="item_id"))
-    private Collection<Item> items;
+    @OneToMany(mappedBy="offer", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<OfferItem> items;
 
     @Version
     private java.sql.Timestamp version;
 
     public Offer()
     {
-
+        items = new ArrayList<OfferItem>();
     }
 
     /**
@@ -63,6 +61,7 @@ public class Offer implements Serializable{
      */
     public Offer(String name, String description, BigDecimal price)
     {
+        this();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -135,7 +134,7 @@ public class Offer implements Serializable{
     /**
      * @return the items
      */
-    public Collection<Item> getItems()
+    public List<OfferItem> getItems()
     {
         return items;
     }
@@ -143,11 +142,43 @@ public class Offer implements Serializable{
     /**
      * @param items the items to set
      */
-    public void setItems(Collection<Item> items)
+    public void setItems(List<OfferItem> items)
     {
         this.items = items;
     }
 
-    
+    public void addOfferItem(OfferItem offerItem)
+    {
+        this.items.add(offerItem);
+    }
+
+    public BigDecimal getTotalItemPrice()
+    {
+        BigDecimal totalItemPrice = new BigDecimal(0);
+        for (OfferItem offerItem : items)
+        {
+            totalItemPrice = totalItemPrice.add(offerItem.getPrice());
+        }
+        
+        return totalItemPrice;
+    }
+
+    public BigDecimal getSaving()
+    {
+        return getTotalItemPrice().subtract(price);
+    }
+
+    public boolean isInStock()
+    {
+        for (OfferItem offerItem : items)
+        {
+            if (offerItem.getItem().getStockLevel() - offerItem.getQuantity() < 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

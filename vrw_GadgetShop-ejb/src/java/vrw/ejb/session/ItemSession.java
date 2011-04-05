@@ -24,9 +24,10 @@ public class ItemSession implements ItemSessionRemote, java.io.Serializable {
     private EntityManager em;
     private static final long serialVersionUID = 1;
 
-    public void add(Item item)
+    public Item add(Item item)
     {
         em.persist(item);
+        return item;
     }
 
     public void update(Item item)

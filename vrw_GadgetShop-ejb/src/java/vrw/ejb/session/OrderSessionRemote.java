@@ -16,6 +16,6 @@ public interface OrderSessionRemote {
 
     public Order checkout(ShoppingBasketSessionRemote shoppingBasket) throws NamingException;
 
-    public void add(Order o);
+    public Order add(Order o);
     
 }

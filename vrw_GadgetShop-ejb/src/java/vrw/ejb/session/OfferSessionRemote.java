@@ -15,7 +15,7 @@ import vrw.ejb.entity.Offer;
 
 public interface OfferSessionRemote {
 
-    public void add(Offer o);
+    public Offer add(Offer o);
     public void update(Offer o);
     public Collection<Offer> findAll();
     public Offer find(int id);

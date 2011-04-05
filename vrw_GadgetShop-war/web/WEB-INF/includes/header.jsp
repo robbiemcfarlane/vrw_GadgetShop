@@ -62,9 +62,8 @@
             <ul id="nav" class="clearfix">
                 <li><a href="ExampleController">Load Test Data</a></li>
                 <li><a href="./">Home</a></li>
-                <li><a href="ItemController">Gadgets</a></li>
-                <li><a href="Item/combo">Combo Deals</a></li>
-                <li><a href="admin/offers/all">Manage Offers</a></li>
+                <li><a href="item/items">Gadgets</a></li>
+                <li><a href="item/offers">Special Offers</a></li>
             </ul>
 
             <div id="content">

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import vrw.ejb.entity.Item;
 import vrw.ejb.session.ItemSessionRemote;
+import vrw.ejb.session.OfferSessionRemote;
 
 /**
  *
@@ -34,30 +35,45 @@ public class ItemController extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        String servletPath = request.getServletPath();
+
         try
         {
-            String itemId = request.getParameter("item");
-
-            InitialContext context = new InitialContext();
-
-            ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
-
-            Collection<Item> itemList = itemSession.findAll();
-
-            request.setAttribute("itemList", itemList);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/item/items.jsp");
-            dispatcher.forward(request, response);
+            // Create a new account
+            if (servletPath.equals("/item/item"))
+            {
+                item(request, response);
+            }
+            // Manage existing account
+            else if (servletPath.equals("/item/items"))
+            {
+                items(request, response);
+            }
+            // Login
+            else if (servletPath.equals("/item/offers"))
+            {
+                offers(request, response);
+            }
         }
-        catch (NamingException ne)
+        catch (NamingException e)
         {
-            ne.printStackTrace();
+            throw new ServletException(e);
         }
-        finally
-        {
-            out.close();
-        }
+    }
+
+    protected void items(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NamingException
+    {
+        String itemId = request.getParameter("item");
+
+        InitialContext context = new InitialContext();
+
+        ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
+
+        Collection<Item> itemList = itemSession.findAll();
+
+        request.setAttribute("itemList", itemList);
+        request.getRequestDispatcher("/item/items.jsp").forward(request, response);
     }
 
     protected void item(HttpServletRequest request, HttpServletResponse response)
@@ -66,25 +82,9 @@ public class ItemController extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-
-
-
-
-
-
-
         try
         {
             String itemId = request.getParameter("item");
-
-
-
-
-
-
-
-
-
             if (itemId != null)
             {
                 InitialContext context = new InitialContext();
@@ -96,40 +96,26 @@ public class ItemController extends HttpServlet
                 request.setAttribute("item", item);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/item/item.jsp");
                 dispatcher.forward(request, response);
-
-
-
-
-
-
-
-
             }
         }
         catch (NamingException ne)
         {
             ne.printStackTrace();
-
-
-
-
-
-
-
-
         }
         finally
         {
             out.close();
-
-
-
-
-
-
-
-
         }
+    }
+
+    protected void offers(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, NamingException
+    {
+        InitialContext context = new InitialContext();
+        OfferSessionRemote offersSession = (OfferSessionRemote) context.lookup("vrw_GadgetShop/OfferSession/remote");
+        Collection offerList = offersSession.findAll();
+        request.setAttribute("offerList", offerList);
+        request.getRequestDispatcher("/item/offers.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

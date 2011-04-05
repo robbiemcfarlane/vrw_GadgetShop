@@ -15,7 +15,7 @@ import vrw.ejb.entity.Item;
 public interface ItemSessionRemote
 {
 
-    public void add(Item item);
+    public Item add(Item item);
 
     public void update(Item item);
 
@@ -28,4 +28,5 @@ public interface ItemSessionRemote
     public Collection<Item> findAllInShopWindow();
 
     public Collection<Item> search(String searchString);
+
 }

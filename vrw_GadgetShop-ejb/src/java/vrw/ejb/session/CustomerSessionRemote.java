@@ -18,7 +18,7 @@ public interface CustomerSessionRemote
 
     public Customer find(String nickname);
 
-    public void register(Customer c);
+    public Customer register(Customer c);
 
     public void update(Customer c);
 

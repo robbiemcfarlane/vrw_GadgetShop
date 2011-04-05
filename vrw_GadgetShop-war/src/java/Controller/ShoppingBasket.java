@@ -91,20 +91,34 @@ public class ShoppingBasket extends HttpServlet
     {
         try
         {
-            int itemId = Integer.parseInt(request.getParameter("item-id"));
-
             InitialContext context = new InitialContext();
             ItemSessionRemote itemSession = (ItemSessionRemote) context.lookup("vrw_GadgetShop/ItemSession/remote");
+            ShoppingBasketSessionRemote basketSession = getBasketSession(request);
 
-            // Get the item
-            Item item = itemSession.find(itemId);
+            String[] itemIds = request.getParameterValues("item-id[]");
+            String[] quantities = request.getParameterValues("quantity[]");
 
-            // Add the item to the basket
-            getBasketSession(request).addItem(item, 1);
+            for(int i=0; i < itemIds.length; i++)
+            {
+                int itemId = Integer.parseInt(itemIds[i]);
+                int quantity = Integer.parseInt(quantities[i]);
+
+                // Add the item to the basket
+                basketSession.addItem(itemSession.find(itemId), quantity);
+            }
+            
+
+            
         }
         catch (StockException se)
         {
-            se.printStackTrace();
+            // Add to Basket button should be greyed out if item is out of stock,
+            // so landing in this catch block implies customer has added an item
+            // in an unsupported way.
+            // TODO: If we want to support adding multiple of an item in one "add
+            // to basket", we would want this to redirect to previous page with
+            // a stock error message.
+            throw new ServletException(se);
         }
 
         response.sendRedirect("view");

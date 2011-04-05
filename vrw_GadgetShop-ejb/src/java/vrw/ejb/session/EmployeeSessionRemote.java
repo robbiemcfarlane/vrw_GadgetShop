@@ -10,7 +10,7 @@ import vrw.ejb.entity.Employee;
 
 public interface EmployeeSessionRemote {
 
-    public void register(Employee e);
+    public Employee register(Employee e);
     public void remove(Employee e);
     public boolean authenticate(String nickname, String password);
 

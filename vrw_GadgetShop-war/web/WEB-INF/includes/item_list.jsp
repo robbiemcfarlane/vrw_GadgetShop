@@ -4,7 +4,7 @@
     <ul id="item_list">
         <c:forEach var="item" items="${itemList}">
             <li>
-                <h3><a href="ItemController?item=${item.id}">${item.name}</a></h3>
+                <h3><a href="item/item?item=${item.id}">${item.name}</a></h3>
                 <p>${item.miniDesc}</p>
                 <p>
                     <c:choose>
@@ -26,7 +26,8 @@
                     </c:otherwise>
                 </c:choose>
                 <form action="basket/add" method="post">
-                    <input type="hidden" name="item-id" value="${item.id}" />
+                    <input type="hidden" name="item-id[]" value="${item.id}" />
+                    <input type="text" name="quantity[]" size="3" />
                     <input type="submit" name="submit" value="Add to Basket" <c:if test="${item.stockLevel <= 0}">disabled="disabled"</c:if> />
                 </form>
             </li>

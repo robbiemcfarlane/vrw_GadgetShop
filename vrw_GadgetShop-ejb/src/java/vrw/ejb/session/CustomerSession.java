@@ -34,9 +34,10 @@ public class CustomerSession implements CustomerSessionRemote, java.io.Serializa
         return em.find(Customer.class, nickname);
     }
 
-    public void register(Customer c)
+    public Customer register(Customer c)
     {
         em.persist(c);
+        return c;
     }
 
     public void update(Customer c)

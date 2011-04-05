@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import vrw.ejb.entity.Employee;
 import vrw.ejb.entity.Offer;
+import vrw.ejb.entity.OfferItem;
 import vrw.ejb.session.EmployeeSessionRemote;
 import vrw.ejb.session.OfferSessionRemote;
 
@@ -61,8 +62,8 @@ public class ExampleController extends HttpServlet
                 Item item2 = new Item("32GB USB Memory Stick", "A long description here...", "A short description here...", new BigDecimal(25.00), new BigDecimal(21.00), 89, false);
 
                 // Add the 2 items to the database (persist)
-                itemSession.add(item1);
-                itemSession.add(item2);
+                item1 = itemSession.add(item1);
+                item2 = itemSession.add(item2);
 
                 // Create a new customer
                 Customer cust1 = new Customer("admin", "admin", "admin", "pwd123", "Random Business Estate", "Unit 1", "Norwich", "Norfolk", "NR2 1AB", "England", "me@me.com");
@@ -73,17 +74,11 @@ public class ExampleController extends HttpServlet
 
                 // Add examples of an offer
                 Offer offer1 = new Offer("Buy One Get One Free", "Buy One Get One Free on 16 GB Memory Stick", new BigDecimal(15.00));
-                Offer offer2 = new Offer("Buy One Get One Half-Price", "Buy One Get One Half Price on 32 GB Memory Stick", new BigDecimal(37.50));
-                if(offer1.getItems()==null)
-                {
-                    offer1.setItems(new ArrayList<Item>());
-                }
-                offer1.getItems().add(item2);
-                offer1.getItems().add(item1);
 
-                
+                OfferItem offerItem = new OfferItem(item1,2);
+                offerItem.setOffer(offer1);
 
-                //offer1.getItems().add((item1));
+                offer1.addOfferItem(offerItem);
 
                 // Add the customer to the database (persist)
                 customerSession.register(cust1);
@@ -93,7 +88,6 @@ public class ExampleController extends HttpServlet
                 employeeSession.register(robbie);
 
                 offerSession.add(offer1);
-                offerSession.add(offer2);
 
                 // Retrieve the items that are in the shop window
                 Collection<Item> itemList = itemSession.findAllInShopWindow();

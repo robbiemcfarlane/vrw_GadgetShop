@@ -29,10 +29,6 @@
         <url-pattern>/ExampleController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ItemController</servlet-name>
-        <url-pattern>/ItemController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Index</servlet-name>
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
@@ -54,6 +50,12 @@
         <url-pattern>/admin/offers/all</url-pattern>
         <url-pattern>/admin/login</url-pattern>
         <url-pattern>/admin/items</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemController</servlet-name>
+        <url-pattern>/item/offers</url-pattern>
+        <url-pattern>/item/items</url-pattern>
+        <url-pattern>/item/item</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
