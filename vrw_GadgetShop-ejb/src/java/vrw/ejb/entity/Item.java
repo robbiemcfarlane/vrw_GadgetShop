@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 @Entity
 public class Item implements Serializable
 {
+    private static final long serialVersionUID = 1;
+    
     @Id
     @GeneratedValue
     private int id;
@@ -192,7 +194,22 @@ public class Item implements Serializable
 
     public String getMiniDesc()
     {
-        return (this.shortDesc != null) ? this.shortDesc : this.longDesc.substring(0, 20) + " ...";
+        return (this.shortDesc != null) ? this.shortDesc : this.longDesc.substring(0, Math.min(20, this.longDesc.length())) + " ...";
+    }
+    
+    public void incrementStockLevel(int increment)
+    {
+        stockLevel += increment;
+    }
+
+    public void decrementStockLevel(int decrement)
+            throws StockException
+    {
+        if (decrement > stockLevel)
+        {
+            throw new StockException("Decrement greater than stock level");
+        }
+        stockLevel -= decrement;
     }
 
 }

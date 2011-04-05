@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Entity
 public class OrderItem implements java.io.Serializable
 {
-
+    private static final long serialVersionUID = 1;
+    
     @Id
     @GeneratedValue
     private int id;

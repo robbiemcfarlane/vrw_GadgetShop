@@ -119,7 +119,12 @@ public class ShoppingBasket extends HttpServlet
             // Testing the checkout process
             InitialContext context = new InitialContext();
             OrderSessionRemote orderSession = (OrderSessionRemote) context.lookup("vrw_GadgetShop/OrderSession/remote");
-            Order order = orderSession.checkoutBasket(getBasketSession(request));
+            ShoppingBasketSessionRemote shoppingBasketSession = getBasketSession(request);
+            Order order = orderSession.checkout(shoppingBasketSession);
+            
+            shoppingBasketSession.terminate();
+            request.getSession().removeAttribute("shoppingBasket");
+
             request.setAttribute("order", order);
             request.getRequestDispatcher("/basket/order_confirmation.jsp").forward(request,response);
         }
