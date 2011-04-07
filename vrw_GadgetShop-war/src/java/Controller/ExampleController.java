@@ -74,11 +74,26 @@ public class ExampleController extends HttpServlet
 
                 // Add examples of an offer
                 Offer offer1 = new Offer("Buy One Get One Free", "Buy One Get One Free on 16 GB Memory Stick", new BigDecimal(15.00));
+                Offer offer2 = new Offer("Buy Three For The Price Of Two", "Buy Three For The Price Of Two", new BigDecimal(30.00));
+                Offer offer3 = new Offer("Buy 32GB Memory Stick And Get 16GB Memory Stick Half Price", "Buy 32GB Memory Stick And Get 16GB Memory Stick Half Price", new BigDecimal(32.50));
 
                 OfferItem offerItem = new OfferItem(item1,2);
+
+                // Add three items to the offer
+                OfferItem offerItem2 = new OfferItem(item1,3);
+
+                OfferItem offerItem3 = new OfferItem(item2,1);
+                OfferItem offerItem4 = new OfferItem(item1,1);
+                offerItem3.setOffer(offer3);
+                offerItem4.setOffer(offer3);
+
                 offerItem.setOffer(offer1);
+                offerItem2.setOffer(offer2);
 
                 offer1.addOfferItem(offerItem);
+                offer2.addOfferItem(offerItem2);
+                offer3.addOfferItem(offerItem3);
+                offer3.addOfferItem(offerItem4);
 
                 // Add the customer to the database (persist)
                 customerSession.register(cust1);
@@ -88,6 +103,8 @@ public class ExampleController extends HttpServlet
                 employeeSession.register(robbie);
 
                 offerSession.add(offer1);
+                offerSession.add(offer2);
+                offerSession.add(offer3);
 
                 // Retrieve the items that are in the shop window
                 Collection<Item> itemList = itemSession.findAllInShopWindow();

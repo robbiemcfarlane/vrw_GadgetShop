@@ -110,6 +110,7 @@ public class ShoppingBasketSession implements ShoppingBasketSessionRemote, java.
         }
     }
 
+
     public Collection<BasketItem> getItemsAsCollection()
     {
         return items.values();
