@@ -5,7 +5,10 @@
 
 package vrw.ejb.session;
 
+import java.util.Calendar;
+import java.util.Collection;
 import javax.naming.NamingException;
+import vrw.ejb.entity.Customer;
 import vrw.ejb.entity.Order;
 
 /**
@@ -15,7 +18,7 @@ import vrw.ejb.entity.Order;
 public interface OrderSessionRemote {
 
     public Order checkout(ShoppingBasketSessionRemote shoppingBasket) throws NamingException;
-
     public Order add(Order o);
+
     
 }

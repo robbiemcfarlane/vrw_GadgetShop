@@ -5,6 +5,8 @@
 package vrw.ejb.session;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.naming.InitialContext;
@@ -12,6 +14,7 @@ import javax.naming.NamingException;
 import javax.persistence.*;
 import vrw.ejb.entity.Basket;
 import vrw.ejb.entity.BasketItem;
+import vrw.ejb.entity.Customer;
 import vrw.ejb.entity.Item;
 import vrw.ejb.entity.Order;
 import vrw.ejb.entity.OrderItem;
@@ -72,4 +75,5 @@ public class OrderSession implements OrderSessionRemote
 
         return order;
     }
+
 }

@@ -14,7 +14,7 @@
 
     <br>
 
-    Saving of<fmt:formatNumber value=":${bestOffer.saving} />
+    Saving of: <fmt:formatNumber value="${bestOffer.saving}" type="currency" />
 </p>
 
 <form action="basket/checkout" method="post">

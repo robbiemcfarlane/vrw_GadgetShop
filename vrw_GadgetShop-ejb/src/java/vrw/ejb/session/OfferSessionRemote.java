@@ -20,4 +20,5 @@ public interface OfferSessionRemote {
     public Collection<Offer> findAll();
     public Offer find(int id);
 
+
 }
