@@ -7,7 +7,14 @@
 </p>
 
 <p>
-    Total: <fmt:formatNumber value="${shoppingBasket.total}" type="currency" />
+    Total: <fmt:formatNumber value="${shoppingBasket.total-bestOffer.saving}" type="currency" />
+</p>
+<p>
+    Offer: ${bestOffer.name}
+
+    <br>
+
+    Saving of<fmt:formatNumber value=":${bestOffer.saving} />
 </p>
 
 <form action="basket/checkout" method="post">

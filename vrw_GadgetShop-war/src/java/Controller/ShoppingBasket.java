@@ -7,6 +7,7 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -155,7 +156,23 @@ public class ShoppingBasket extends HttpServlet
         else
         {
             ArrayList<Offer> offers = calculateOffers(request);
+
+            //BigDecimal highestSaving = new BigDecimal(0.00);
+
+            Offer bestOffer = offers.get(0);
+
+
+            for(Offer o: offers)
+            {
+                if(o.getSaving().compareTo(bestOffer.getSaving()) == 1)
+                {
+                    bestOffer = o;
+                }
+            }
+
+            
             request.setAttribute("basketItems", getBasketSession(request).getItems().values());
+            request.setAttribute("bestOffer", bestOffer);
             request.getRequestDispatcher("/basket/checkout.jsp").forward(request, response);
         }
     }
